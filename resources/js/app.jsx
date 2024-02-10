@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from 'react-dom/client'
-import Home from "./components/Page/Home";
+import Home from "./Page/Home";
 
 
 console.log('something')
