@@ -19,6 +19,15 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const HOME = '/home';
 
+    // protected $prifix;
+
+    public function get_admin_url()
+    {
+        return 'auth';
+    }
+
+    
+
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
      */
@@ -37,7 +46,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
 
             Route::middleware('web')
-                ->prefix('admin')
+                ->prefix($this->get_admin_url())
                 ->group(base_path('routes/admin.php'));
         });
     }
