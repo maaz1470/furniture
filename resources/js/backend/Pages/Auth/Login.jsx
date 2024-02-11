@@ -1,13 +1,18 @@
 import React from "react";
 import "./../../assets/css/style.css";
 import "./../../assets/js/custom.js";
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 const Login = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        console.log("Something");
+    };
     return (
         <div>
             <Helmet>
-                <title>Login</title>
+                <title>This is login page</title>
             </Helmet>
             <div className="screen_loader animate__animated fixed inset-0 z-[60] grid place-content-center bg-[#fafafa] dark:bg-[#060818">
                 <svg
@@ -113,7 +118,10 @@ const Login = () => {
                                             login
                                         </p>
                                     </div>
-                                    <form className="space-y-5 dark:text-white">
+                                    <form
+                                        className="space-y-5 dark:text-white"
+                                        onSubmit={handleSubmit}
+                                    >
                                         <div>
                                             <label htmlFor="Email">Email</label>
                                             <div className="relative text-white-dark">
