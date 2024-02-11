@@ -120,6 +120,7 @@ const Login = () => {
                                                 <input
                                                     id="Email"
                                                     type="email"
+                                                    name="email"
                                                     placeholder="Enter Email"
                                                     className="form-input ps-10 placeholder:text-white-dark"
                                                 />
@@ -151,6 +152,7 @@ const Login = () => {
                                                 <input
                                                     id="Password"
                                                     type="password"
+                                                    name="password"
                                                     placeholder="Enter Password"
                                                     className="form-input ps-10 placeholder:text-white-dark"
                                                 />
