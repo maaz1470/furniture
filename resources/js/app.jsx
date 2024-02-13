@@ -1,7 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
-import { RouterProvider } from "react-router-dom";
-import route from "./front-end/route";
+
+import ReactDOM from 'react-dom/client'
+import Home from "./front-end/Page/Home";
+
 
 if (document.getElementById("root")) {
     const root = ReactDOM.createRoot(document.getElementById("root"));

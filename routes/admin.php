@@ -3,8 +3,21 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 
-Route::prefix('auth')->group(function () {
-    Route::name('auth.')->group(function () {
-        Route::get('/login', [AuthController::class, 'login'])->name('login');
-    });
+
+// $prefix = get_admin_url();
+
+
+// Route::prefix('auth')->group(function () {
+//     Route::name('auth.')->group(function () {
+//         Route::get('/login', [AuthController::class, 'login'])->name('login');
+//     });
+// });
+
+Route::get('/',function(){
+    return view('Backend.layout');
+});
+
+
+Route::get('/register',function(){
+    return view('Backend.Layout');
 });
