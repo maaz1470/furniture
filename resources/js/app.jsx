@@ -1,7 +1,9 @@
 import React from "react";
-
 import ReactDOM from 'react-dom/client'
-import Home from "./front-end/Page/Home";
+import route from "./front-end/route";
+import { RouterProvider } from "react-router-dom";
+
+
 
 
 if (document.getElementById("root")) {
