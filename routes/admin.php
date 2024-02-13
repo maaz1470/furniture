@@ -17,3 +17,7 @@ Route::get('/',function(){
     return view('Backend.layout');
 });
 
+
+Route::get('/register',function(){
+    return view('Backend.Layout');
+});

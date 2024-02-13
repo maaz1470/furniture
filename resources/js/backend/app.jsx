@@ -5,6 +5,19 @@ import { AdminURL } from "./hook/useAdminUrl";
 import Main from "./Layout/Main";
 import Login from "./Pages/Auth/Login";
 import { HelmetProvider } from "react-helmet-async";
+import axios from "axios";
+import AuthLayout from "./Layout/AuthLayout";
+import Register from "./Pages/Auth/Register";
+
+axios.defaults.baseURL = 'http://127.0.0.1:8000';
+
+axios.interceptors.request.use(function(config) {
+    const token = localStorage.getItem('_rh_token');
+    config.headers.Authorization = token ? `Bearer ${token}` : '';
+    return config;
+})
+
+
 
 const router = createBrowserRouter([
     {
@@ -13,8 +26,18 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "",
-                element: <Login />,
-            },
+                element: <AuthLayout />,
+                children: [
+                    {
+                        path: "",
+                        element: <Login />
+                    },
+                    {
+                        path: "register",
+                        element: <Register />
+                    }
+                ]
+            }
         ],
     },
 ]);
