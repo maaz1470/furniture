@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./../../assets/css/style.css";
 import "./../../assets/js/custom.js";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import withProgress from "../../HOC/withProgress.jsx";
 
 const Login = () => {
+
+    useEffect(() => {
+        axios.get('/auth')
+    })
+    
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -16,7 +24,7 @@ const Login = () => {
             <Helmet>
                 <title>This is login page</title>
             </Helmet>
-            <div className="screen_loader animate__animated fixed inset-0 z-[60] grid place-content-center bg-[#fafafa] dark:bg-[#060818">
+            {/* <div className="screen_loader animate__animated fixed inset-0 z-[60] grid place-content-center bg-[#fafafa] dark:bg-[#060818">
                 <svg
                     width="64"
                     height="64"
@@ -45,7 +53,7 @@ const Login = () => {
                         />
                     </path>
                 </svg>
-            </div>
+            </div> */}
 
             <div className="fixed bottom-6 right-6 z-50" x-data="scrollToTop">
                 <template x-if="showTopButton">
@@ -205,6 +213,7 @@ const Login = () => {
                                             Sign in
                                         </button>
                                     </form>
+                                    <p><Link to={'/auth/register'}>Register</Link></p>
                                     {/* <div className="text-center dark:text-white">
                                         Don't have an account ?
                                         <a
@@ -224,4 +233,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default withProgress(Login, axios);

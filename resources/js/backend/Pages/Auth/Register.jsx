@@ -1,14 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./../../assets/css/style.css";
 import "./../../assets/js/custom.js";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { Helmet } from "react-helmet-async";
 import BG_Gradient from "./../../assets/images/auth/bg-gradient.png";
 import Coming_Soon from "./../../assets/images/auth/coming-soon-object1.png";
 import Coming_Soon2 from "./../../assets/images/auth/coming-soon-object2.png";
 import Coming_Soon3 from "./../../assets/images/auth/coming-soon-object3.png";
 import Polygon_Object from "./../../assets/images/auth/polygon-object.svg";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
+import axios from "axios";
+import { Link } from "react-router-dom";
+import withProgress from "../../HOC/withProgress.jsx";
+import nProgress from "nprogress";
+import 'nprogress/nprogress.css'
 
 const Register = () => {
+    // nProgress.start();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await axios.get('/auth/register2').then(response => {
+                // nProgress.done();
+            })
+        }
+        fetchData();
+    },[])
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -18,9 +36,33 @@ const Register = () => {
         const email = form.email.value;
         const password = form.password.value;
         const confirm_password = form.con_password.value;
-        if(password != confirm_password){
-            alert('hoynai');
+        
+        if(name && username && email && password && confirm_password){
+            if(password != confirm_password){
+                toast('Password and Confirm Password not matched.',{
+                    position: 'top-right'
+                })
+            }
+
+            const data = {
+                name,
+                username,
+                email,
+                password,
+                confirm_password
+            }
+
+            axios.post('/api/admin/register', data).then(response => {
+                console.log(response)
+            });
+
+        }else{
+            toast('All Field is Required',{
+                position: 'top-right'
+            })
         }
+
+
     }
 
 
@@ -30,7 +72,8 @@ const Register = () => {
             <Helmet>
                 <title>Sign Up</title>
             </Helmet>
-            <div className="screen_loader animate__animated fixed inset-0 z-[60] grid place-content-center bg-[#fafafa] dark:bg-[#060818">
+            <ToastContainer />
+            {/* <div className="screen_loader animate__animated fixed inset-0 z-[60] grid place-content-center bg-[#fafafa] dark:bg-[#060818">
                 <svg
                     width="64"
                     height="64"
@@ -59,7 +102,7 @@ const Register = () => {
                         />
                     </path>
                 </svg>
-            </div>
+            </div> */}
 
             <div className="fixed bottom-6 right-6 z-50" x-data="scrollToTop">
                 <template x-if="showTopButton">
@@ -295,6 +338,7 @@ const Register = () => {
                                             Sign Up
                                         </button>
                                     </form>
+                                    <p><Link to={'/auth'}>Login Now</Link></p>
                                     {/* <div className="text-center dark:text-white">
                                         Don't have an account ?
                                         <a
@@ -314,4 +358,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default withProgress(Register, axios);

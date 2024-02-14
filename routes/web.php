@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\front_end\HomeController;
+use App\Http\Controllers\Frontend\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +14,8 @@ use App\Http\Controllers\front_end\HomeController;
 |
 */
 
-Route::get('/',[HomeController::class,'index'])->name('home');
+Route::name('home.')->group(function(){
+    Route::get('/',[HomeController::class,'index'])->name('home');
+});
 
 
