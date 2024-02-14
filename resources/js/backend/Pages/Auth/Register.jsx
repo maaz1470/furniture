@@ -20,7 +20,7 @@ const Register = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            await axios.get('/auth/register2').then(response => {
+            await axios.get('/auth/register').then(response => {
                 // nProgress.done();
             })
         }

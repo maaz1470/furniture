@@ -4,7 +4,6 @@ import React, { useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const withProgress = (WrappedComponent, axiosInstance) => {
-    console.log('with progress')
     const withProgress = (props) => {
       useEffect(() => {
         const request = axios.interceptors.request.use(config => {
