@@ -20,9 +20,7 @@ const Register = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            await axios.get('/auth/register').then(response => {
-                // nProgress.done();
-            })
+            await axios.get('/auth/register')
         }
         fetchData();
     },[])
@@ -36,12 +34,12 @@ const Register = () => {
         const email = form.email.value;
         const password = form.password.value;
         const confirm_password = form.con_password.value;
-        
+
         if(name && username && email && password && confirm_password){
             if(password != confirm_password){
                 toast('Password and Confirm Password not matched.',{
                     position: 'top-right'
-                })
+                });
             }
 
             const data = {
@@ -54,7 +52,7 @@ const Register = () => {
 
             axios.post('/api/admin/register', data).then(response => {
                 console.log(response)
-            });
+            })
 
         }else{
             toast('All Field is Required',{
