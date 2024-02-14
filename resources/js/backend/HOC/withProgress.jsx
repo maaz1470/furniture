@@ -12,18 +12,13 @@ const withProgress = (WrappedComponent, axiosInstance) => {
             return config;
         },(error) => {
             nProgress.done();
-            console.log('request error: ' + error)
             return Promise.reject(error)
         })
 
         const response = axios.interceptors.response.use(response => {
             nProgress.done();
         }, (error) => {
-            console.log(error.response.status)
             nProgress.done();
-            if(error.response.status == 404){
-                return <Navigate to={'/auth'} />
-            }
             return Promise.reject(error)
         })
 
