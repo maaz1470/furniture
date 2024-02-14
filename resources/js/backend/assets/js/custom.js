@@ -1,7 +1,6 @@
 (function () {
     window.onload = function(){
         setTimeout(() => {
-            console.log('Hello Something')
             const $themeConfig = {
                 locale: 'en', // en, da, de, el, es, fr, hu, it, ja, pl, pt, ru, sv, tr, zh
                 theme: 'light', // light, dark, system
@@ -13,7 +12,6 @@
                 semidark: false,
             };
             const screen_loader = document.getElementsByClassName('screen_loader');
-            console.log(screen_loader)
                 if (screen_loader?.length) {
                     screen_loader[0].classList.add('animate__fadeOut');
                     setTimeout(() => {
