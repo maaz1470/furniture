@@ -10,15 +10,26 @@ import Polygon_Object from "./../../assets/images/auth/polygon-object.svg";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import withProgress from "../../HOC/withProgress.jsx";
 import nProgress from "nprogress";
 import 'nprogress/nprogress.css'
 
 const Register = () => {
     // nProgress.start();
+    const navigate = useNavigate();
+
+    const checkAuth = async () => {
+        await axios.get('/api/admin/countAdmin').then(response => {
+            if(response.data.redirect){
+                return navigate('/auth');
+            }
+        })
+    }
+    checkAuth();
 
     useEffect(() => {
+        
         const fetchData = async () => {
             await axios.get('/auth/register')
         }
@@ -48,10 +59,23 @@ const Register = () => {
                 email,
                 password,
                 confirm_password
-            }
+            };
 
             axios.post('/api/admin/register', data).then(response => {
-                console.log(response)
+                if(response.data.status === 401){
+                    response.data.errors.forEach(el => toast.error(el,{
+                        position: 'top-right'
+                    }));
+                }else if(response.data.status === 200){
+                    toast.success(response.data.message,{
+                        position: 'top-right'
+                    })
+                }else if(response.data.status === 402){
+                    toast.error(response.data.message)
+                }
+                
+            }).catch(error => {
+                console.log(error)
             })
 
         }else{
@@ -336,7 +360,6 @@ const Register = () => {
                                             Sign Up
                                         </button>
                                     </form>
-                                    <p><Link to={'/auth'}>Login Now</Link></p>
                                     {/* <div className="text-center dark:text-white">
                                         Don't have an account ?
                                         <a

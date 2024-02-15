@@ -213,7 +213,6 @@ const Login = () => {
                                             Sign in
                                         </button>
                                     </form>
-                                    <p><Link to={'/auth/register'}>Register</Link></p>
                                     {/* <div className="text-center dark:text-white">
                                         Don't have an account ?
                                         <a
