@@ -34,9 +34,11 @@ class AdminController extends Controller
         $admin->email = $request->email;
         $admin->password = Hash::make($request->password);
         if($admin->save()){
+            $adminToken = $admin->createToken($request->email)->plainTextToken;
             return Response()->json([
-                'status'    => 200,
-                'message'   => 'Admin Registration Successfully'
+                'status'        => 200,
+                'rh_token'      => $adminToken,
+                'message'       => 'Admin Registration Successfully'
             ]);
         }else{
             return Response()->json([
