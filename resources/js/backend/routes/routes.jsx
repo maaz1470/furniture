@@ -5,6 +5,7 @@ import AuthLayout from "../Layout/AuthLayout";
 import Login from "../Pages/Auth/Login";
 import Register from "../Pages/Auth/Register";
 import { AdminURL } from "../hook/useAdminUrl";
+import DashboardLayout from "../Layout/DashboardLayout";
 
 const routes = createBrowserRouter([
     {

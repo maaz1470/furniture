@@ -20,6 +20,7 @@ import Loading from "../../shared/Loading/Loading.jsx";
 const Register = () => {
     // nProgress.start();
     const [loading, setLoading] = useState(true);
+    const [processing, setProcessing] = useState(false)
     const navigate = useNavigate();
 
     
@@ -35,13 +36,15 @@ const Register = () => {
         }
         checkAuth();
         const fetchData = async () => {
-            await axios.get('/auth/register')
+            await axios.get(`${AdminURL}/register`)
         }
         fetchData();
     },[])
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        setProcessing(true)
 
         const form = e.target;
         const name = form.name.value;
@@ -67,6 +70,7 @@ const Register = () => {
 
             axios.post('/api/admin/register', data).then(response => {
                 console.log(response)
+                setProcessing(false)
                 if(response.data.status === 401){
                     response.data.errors.forEach(el => toast.error(el,{
                         position: 'top-right'
@@ -76,9 +80,9 @@ const Register = () => {
                         position: 'top-right'
                     })
                     localStorage.setItem('rh_token',response.data.rh_token)
-                    // navigate(`/${AdminURL}/dashboard`,{
-                    //     replace: true
-                    // })
+                    navigate(`${AdminURL}/dashboard`,{
+                        replace: true
+                    })
                 }else if(response.data.status === 402){
                     toast.error(response.data.message)
                 }
@@ -339,6 +343,7 @@ const Register = () => {
                                         <button
                                             type="submit"
                                             className="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]"
+                                            disabled={processing}
                                         >
                                             Sign Up
                                         </button>
