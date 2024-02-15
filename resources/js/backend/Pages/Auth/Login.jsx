@@ -5,11 +5,12 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import withProgress from "../../HOC/withProgress.jsx";
+import { AdminURL } from "../../hook/useAdminUrl.js";
 
 const Login = () => {
 
     useEffect(() => {
-        axios.get('/auth')
+        axios.get(`${AdminURL}`)
     })
     
     const handleSubmit = (e) => {
@@ -22,7 +23,7 @@ const Login = () => {
     return (
         <div>
             <Helmet>
-                <title>This is login page</title>
+                <title>Login</title>
             </Helmet>
             {/* <div className="screen_loader animate__animated fixed inset-0 z-[60] grid place-content-center bg-[#fafafa] dark:bg-[#060818">
                 <svg
@@ -213,6 +214,7 @@ const Login = () => {
                                             Sign in
                                         </button>
                                     </form>
+                                    {/* <p><Link to={'/auth/register'}>Register</Link></p> */}
                                     {/* <div className="text-center dark:text-white">
                                         Don't have an account ?
                                         <a
