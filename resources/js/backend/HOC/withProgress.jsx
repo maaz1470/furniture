@@ -10,14 +10,16 @@ const withProgress = (WrappedComponent, axiosInstance) => {
             nProgress.start();
             return config;
         },(error) => {
-            nProgress.done();
+            // nProgress.done();
             return Promise.reject(error)
         })
 
         const response = axios.interceptors.response.use(response => {
             nProgress.done();
+            return response;
         }, (error) => {
-            nProgress.done();
+            // nProgress.done();
+
             return Promise.reject(error)
         })
 

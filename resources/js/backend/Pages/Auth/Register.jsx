@@ -10,19 +10,28 @@ import Polygon_Object from "./../../assets/images/auth/polygon-object.svg";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import withProgress from "../../HOC/withProgress.jsx";
 import nProgress from "nprogress";
 import 'nprogress/nprogress.css'
 
 const Register = () => {
     // nProgress.start();
+    const navigate = useNavigate();
+
+    const checkAuth = async () => {
+        await axios.get('/api/admin/countAdmin').then(response => {
+            if(response.data.redirect){
+                return navigate('/auth');
+            }
+        })
+    }
+    checkAuth();
 
     useEffect(() => {
+        
         const fetchData = async () => {
-            await axios.get('/auth/register').then(response => {
-                // nProgress.done();
-            })
+            await axios.get('/auth/register')
         }
         fetchData();
     },[])
@@ -36,12 +45,12 @@ const Register = () => {
         const email = form.email.value;
         const password = form.password.value;
         const confirm_password = form.con_password.value;
-        
+
         if(name && username && email && password && confirm_password){
             if(password != confirm_password){
                 toast('Password and Confirm Password not matched.',{
                     position: 'top-right'
-                })
+                });
             }
 
             const data = {
@@ -50,11 +59,24 @@ const Register = () => {
                 email,
                 password,
                 confirm_password
-            }
+            };
 
             axios.post('/api/admin/register', data).then(response => {
-                console.log(response)
-            });
+                if(response.data.status === 401){
+                    response.data.errors.forEach(el => toast.error(el,{
+                        position: 'top-right'
+                    }));
+                }else if(response.data.status === 200){
+                    toast.success(response.data.message,{
+                        position: 'top-right'
+                    })
+                }else if(response.data.status === 402){
+                    toast.error(response.data.message)
+                }
+                
+            }).catch(error => {
+                console.log(error)
+            })
 
         }else{
             toast('All Field is Required',{
@@ -338,7 +360,6 @@ const Register = () => {
                                             Sign Up
                                         </button>
                                     </form>
-                                    <p><Link to={'/auth'}>Login Now</Link></p>
                                     {/* <div className="text-center dark:text-white">
                                         Don't have an account ?
                                         <a
