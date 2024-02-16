@@ -18,6 +18,7 @@ import { AuthContext } from "../../Provider/AuthProvider.jsx";
 import Loading from "../../shared/Loading/Loading.jsx";
 
 const Login = () => {
+    const [processing, setProcessing] = useState(false)
     const navigate = useNavigate();
 
 
@@ -30,6 +31,8 @@ const Login = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        setProcessing(true)
+
         const form = e.target;
         const username = form.username.value;
         const password = form.password.value;
@@ -39,7 +42,7 @@ const Login = () => {
         }
         
         axios.post(`/api/admin/login`,data).then(response => {
-            console.log(response)
+            setProcessing(false)
             if(response.data.status === 200){
                 if(response.data.authorization){
                     swal('Login Successfully','','success')
@@ -220,6 +223,7 @@ const Login = () => {
                                         <button
                                             type="submit"
                                             className="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]"
+                                            disabled={processing}
                                         >
                                             Sign in
                                         </button>
