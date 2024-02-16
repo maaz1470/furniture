@@ -3,7 +3,7 @@ import nProgress from "nprogress";
 import React, { useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
-const withProgress = (WrappedComponent, axiosInstance) => {
+const withProgress = (WrappedComponent) => {
     const withProgress = (props) => {
       useEffect(() => {
         const request = axios.interceptors.request.use(config => {

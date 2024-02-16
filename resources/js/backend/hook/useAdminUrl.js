@@ -1,3 +1,3 @@
-export const AdminURL = '/auth';
+export const AdminURL = '/panel';
 
 // export const ApiURL = '/api'
