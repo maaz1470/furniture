@@ -17,10 +17,13 @@ class AdminGuardMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        
         if(Auth::guard('admin')->check()){
             return $next($request);
         }else{
             return redirect()->route('admin.login');
         }
+
+        
     }
 }

@@ -79,8 +79,7 @@ const Register = () => {
                     toast.success(response.data.message,{
                         position: 'top-right'
                     })
-                    localStorage.setItem('rh_token',response.data.rh_token);
-                    navigate(`${AdminURL}/dashboard`,{
+                    navigate(`${AdminURL}/auth/login`,{
                         replace: true
                     })
                 }else if(response.data.status === 402){

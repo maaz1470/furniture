@@ -15,7 +15,7 @@
                 if (screen_loader?.length) {
                     screen_loader[0].classList.add('animate__fadeOut');
                     setTimeout(() => {
-                        screen_loader[0].remove();
+                        screen_loader[0]?.remove();
                     }, 200);
                 }
         

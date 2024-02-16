@@ -9,7 +9,7 @@ const AuthProvider = ({children}) => {
 
     useEffect(() => {
         const checkUser = async () => {
-            await axios.get(`${AdminURL}/checkAuth`).then(response => {
+            await axios.get(`/api/admin/checkAdmin`).then(response => {
                 setLoading(false)
                 if(response.data.status === 200){
                     setUser(response.data.authorization)

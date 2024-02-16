@@ -34,10 +34,8 @@ class AdminController extends Controller
         $admin->email = $request->email;
         $admin->password = Hash::make($request->password);
         if($admin->save()){
-            $adminToken = $admin->createToken($request->email)->plainTextToken;
             return Response()->json([
                 'status'        => 200,
-                'rh_token'      => $adminToken,
                 'message'       => 'Admin Registration Successfully'
             ]);
         }else{
@@ -78,11 +76,30 @@ class AdminController extends Controller
             ]);
         }
 
-        $admin = Auth::guard('admin')->attempt(['username' => $request->username,'password'=>$request->password]);
-        return Response()->json([
-            'status'        => 200,
-            'authorization' => $admin
-        ]);
+        $attempt = Auth::guard('admin')->attempt(['username' => $request->username,'password'=>$request->password]);
+        // $admin_api = Auth::guard('admin')->check()->createToken
+        $admin = Admin::where('username',$request->username)->get()->first();
+        if($admin){
+            if(Hash::check($request->password, $admin->password)){
+                $token = $admin->createToken($admin->email)->plainTextToken;
+                return Response()->json([
+                    'status'            => 200,
+                    'authorization'     => $attempt,
+                    'rh_token'          => $token
+                ]);
+            }else{
+                return Response()->json([
+                    'status'    => 402,
+                    'message'   => 'Username and Password not mached.'
+                ]);
+            }
+        }else{
+            return Response()->json([
+                'status'    => 402,
+                'message'   => 'Username and Password not mached.'
+            ]);
+        }
+        
 
     }
 }
