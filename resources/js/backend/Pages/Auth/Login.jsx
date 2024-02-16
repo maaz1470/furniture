@@ -45,6 +45,10 @@ const Login = () => {
             setProcessing(false)
             if(response.data.status === 200){
                 if(response.data.authorization){
+                    localStorage.setItem('rh_token',response.data.rh_token);
+                    navigate(`${AdminURL}/dashboard`,{
+                        replace: true
+                    })
                     swal('Login Successfully','','success')
                     navigate('/panel/dashboard',{
                         replace: true

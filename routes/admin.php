@@ -16,12 +16,12 @@ Route::prefix('auth')->group(function(){
 
 
 Route::middleware(['auth:sanctum','AdminGuard'])->group(function(){
-    Route::get('/checkAuth',function(){
-        return Response()->json([
-            'status'        => 200,
-            'authorization' => true
-        ]);
-    });
+    // Route::get('/checkAuth',function(){
+    //     return Response()->json([
+    //         'status'        => 200,
+    //         'authorization' => true
+    //     ]);
+    // });
 
     Route::prefix('dashboard')->group(function(){
         Route::name('dashboard.')->group(function(){

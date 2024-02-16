@@ -27,3 +27,15 @@ Route::prefix('admin')->group(function(){
         Route::post('/login',[AdminController::class, 'login'])->name('login');
     });
 });
+
+
+Route::middleware(['auth:sanctum'])->group(function(){
+    Route::prefix('admin')->group(function(){
+        Route::get('/checkAdmin',function(){
+            return Response()->json([
+                'status'        => 200,
+                'authorization' => true
+            ]);
+        });
+    });
+});
