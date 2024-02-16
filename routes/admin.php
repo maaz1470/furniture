@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\PasswordResetController;
 
 Route::prefix('auth')->group(function(){
     Route::get('/login',function(){
@@ -12,6 +13,13 @@ Route::prefix('auth')->group(function(){
     Route::get('/register',function(){
         return view('Backend.Layout');
     })->middleware('RegistrationGuard');
+});
+
+
+Route::prefix('auth')->group(function(){
+    Route::name('admin.reset.')->group(function(){
+        Route::get('/reset-password',[PasswordResetController::class, 'forgate_page'])->name('forgate_page');
+    });
 });
 
 

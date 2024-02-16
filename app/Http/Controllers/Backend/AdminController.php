@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use Carbon\Carbon;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
@@ -100,6 +104,50 @@ class AdminController extends Controller
             ]);
         }
         
+
+    }
+
+    public function send_reset_link(Request $request){
+        $validator = Validator::make($request->all(),[
+            'email'     => 'required|email|exists:admins'
+        ],[
+            'email.exists'  => 'Email Address not exists.'
+        ]);
+        if($validator->fails()){
+            return Response()->json([
+                'status'    => 401,
+                'errors'    => $validator->errors()->all()
+            ]);
+        }
+        $token = Str::random(64);
+        // $now = Carbon::now();
+
+        // $currentData = $now;
+        // $check = Carbon::parse($currentData)->addMinute(30)->isFuture();
+
+        // $add_token = DB::table('password_reset_tokens')->insert([
+        //     'email'     => $request->email,
+        //     'token'     => $token,
+        //     'created_at'=> Carbon::now()
+        // ]);
+
+        // Mail::send('email.reset-password.reset',['token'=>$token],function($message) use($request){
+        //     $message->to($request->email);
+        //     $message->subject('Reset Password');
+        // });
+
+        $data = DB::table('password_reset_tokens')->where('email',$request->email)->get()->first();
+
+        $time = 45;
+
+        $check = Carbon::parse($data->created_at)->addMinute($time)->isFuture();
+
+        return Response()->json($check);
+
+        // return Response()->json([
+        //     'status'    => 200,
+        //     'message'   => 'Email send successfully'
+        // ]);
 
     }
 }

@@ -8,6 +8,7 @@ import { AdminURL } from "../hook/useAdminUrl";
 import DashboardLayout from "../Layout/DashboardLayout";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Dashboard from "../Pages/Dashboard/Dashboard";
+import ResetPassword from "../Pages/Auth/Reset/ResetPassword";
 
 const routes = createBrowserRouter([
     {
@@ -25,6 +26,10 @@ const routes = createBrowserRouter([
                     {
                         path: "register",
                         element: <Register />
+                    },
+                    {
+                        path: "reset-password",
+                        element: <ResetPassword />
                     }
                 ]
             },

@@ -236,15 +236,16 @@ const Login = () => {
                                         </button>
                                     </form>
                                     {/* <p><Link to={'/auth/register'}>Register</Link></p> */}
-                                    {/* <div className="text-center dark:text-white">
-                                        Don't have an account ?
-                                        <a
-                                            href="auth-boxed-signup.html"
+                                    <br />
+                                    <div className="text-center dark:text-white">
+                                        Don't remember your Password? 
+                                        <Link
+                                            to={`${AdminURL}/auth/reset-password`}
                                             className="uppercase text-primary underline transition hover:text-black dark:hover:text-white"
                                         >
-                                            SIGN UP
-                                        </a>
-                                    </div> */}
+                                            Forget Password
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
