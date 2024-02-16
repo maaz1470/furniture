@@ -4,16 +4,18 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
 
-Route::get('/',function(){
-    return view('Backend.layout');
-})->name('admin.login');
+Route::prefix('auth')->group(function(){
+    Route::get('/login',function(){
+        return view('Backend.layout');
+    })->name('admin.login');
+    
+    Route::get('/register',function(){
+        return view('Backend.Layout');
+    })->middleware('RegistrationGuard');
+});
 
-Route::get('/register',function(){
-    return view('Backend.Layout');
-})->middleware('RegistrationGuard');
 
-
-Route::middleware('auth:sanctum')->group(function(){
+Route::middleware(['auth:sanctum','AdminGuard'])->group(function(){
     Route::get('/checkAuth',function(){
         return Response()->json([
             'status'        => 200,
@@ -23,7 +25,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::prefix('dashboard')->group(function(){
         Route::name('dashboard.')->group(function(){
-            Route::get('/',[DashboardController::class, 'dashboard'])->name('dashboard');
+            Route::get('/',[DashboardController::class, 'dashboard'])->name('index');
         });
     });
 });

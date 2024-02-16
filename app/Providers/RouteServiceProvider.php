@@ -23,7 +23,7 @@ class RouteServiceProvider extends ServiceProvider
 
     public function get_admin_url()
     {
-        return 'auth';
+        return 'panel';
     }
 
     

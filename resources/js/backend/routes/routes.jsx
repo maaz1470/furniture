@@ -6,6 +6,8 @@ import Login from "../Pages/Auth/Login";
 import Register from "../Pages/Auth/Register";
 import { AdminURL } from "../hook/useAdminUrl";
 import DashboardLayout from "../Layout/DashboardLayout";
+import ProtectedRoutes from "./ProtectedRoutes";
+import Dashboard from "../Pages/Dashboard/Dashboard";
 
 const routes = createBrowserRouter([
     {
@@ -13,16 +15,26 @@ const routes = createBrowserRouter([
         element: <Main />,
         children: [
             {
-                path: "",
+                path: "auth",
                 element: <AuthLayout />,
                 children: [
                     {
-                        path: "",
+                        path: "login",
                         element: <Login />
                     },
                     {
                         path: "register",
                         element: <Register />
+                    }
+                ]
+            },
+            {
+                path: "",
+                element: <DashboardLayout />,
+                children: [
+                    {
+                        path: 'dashboard',
+                        element: <Dashboard />
                     }
                 ]
             }

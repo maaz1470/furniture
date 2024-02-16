@@ -24,5 +24,6 @@ Route::prefix('admin')->group(function(){
     Route::name('admin.')->group(function(){
         Route::post('/register',[AdminController::class, 'register'])->name('register');
         Route::get('/countAdmin',[AdminController::class, 'countAdmin'])->name('countAdmin');
+        Route::post('/login',[AdminController::class, 'login'])->name('login');
     });
 });

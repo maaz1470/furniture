@@ -64,4 +64,25 @@ class AdminController extends Controller
             ]);
         }
     }
+
+    public function login(Request $request){
+        $validator = Validator::make($request->all(),[
+            'username'  => 'required',
+            'password'  => 'required'
+        ]);
+
+        if($validator->fails()){
+            return Response()->json([
+                'status'    => 401,
+                'errors'    => $validator->errors()->all()
+            ]);
+        }
+
+        $admin = Auth::guard('admin')->attempt(['username' => $request->username,'password'=>$request->password]);
+        return Response()->json([
+            'status'        => 200,
+            'authorization' => $admin
+        ]);
+
+    }
 }
