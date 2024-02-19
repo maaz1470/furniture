@@ -9,6 +9,7 @@ import DashboardLayout from "../Layout/DashboardLayout";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import ResetPassword from "../Pages/Auth/Reset/ResetPassword";
+import PasswordReset from "../Pages/Auth/Reset/PasswordReset";
 
 const routes = createBrowserRouter([
     {
@@ -30,6 +31,10 @@ const routes = createBrowserRouter([
                     {
                         path: "reset-password",
                         element: <ResetPassword />
+                    },
+                    {
+                        path: "reset-password/:token",
+                        element: <PasswordReset />
                     }
                 ]
             },

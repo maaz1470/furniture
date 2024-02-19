@@ -45,5 +45,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
 Route::prefix('auth/reset')->group(function(){
     Route::name('admin.reset')->group(function(){
         Route::post('/send-reset-link',[AdminController::class, 'send_reset_link'])->name('send_reset_link');
+        Route::post('/reset-password',[AdminController::class, 'resetPassword'])->name('resetPassword');
+        Route::post('/change-password',[AdminController::class, 'changePassword'])->name('changePassword');
     });
 });

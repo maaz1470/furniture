@@ -120,34 +120,107 @@ class AdminController extends Controller
             ]);
         }
         $token = Str::random(64);
-        // $now = Carbon::now();
+        
+        DB::table('password_reset_tokens')->insert([
+            'email'     => $request->email,
+            'token'     => $token,
+            'created_at'=> Carbon::now()
+        ]);
 
-        // $currentData = $now;
-        // $check = Carbon::parse($currentData)->addMinute(30)->isFuture();
-
-        // $add_token = DB::table('password_reset_tokens')->insert([
-        //     'email'     => $request->email,
-        //     'token'     => $token,
-        //     'created_at'=> Carbon::now()
-        // ]);
-
-        // Mail::send('email.reset-password.reset',['token'=>$token],function($message) use($request){
-        //     $message->to($request->email);
-        //     $message->subject('Reset Password');
-        // });
-
-        $data = DB::table('password_reset_tokens')->where('email',$request->email)->get()->first();
-
-        $time = 45;
-
-        $check = Carbon::parse($data->created_at)->addMinute($time)->isFuture();
-
-        return Response()->json($check);
+        Mail::send('email.reset-password.reset',['token'=>$token],function($message) use($request){
+            $message->to($request->email);
+            $message->subject('Reset Password');
+        });
+        return Response()->json([
+            'status'    => 200,
+            'message'   => 'Reset Link send your email. if you are registered user.'
+        ]);
 
         // return Response()->json([
         //     'status'    => 200,
         //     'message'   => 'Email send successfully'
         // ]);
+
+    }
+
+    
+    public function resetPassword(Request $request)
+    {
+        $token = DB::table('password_reset_tokens')->where('token', $request->token)->get()->first();
+        if ($token) {
+            $now = $token->created_at;
+            $verify_time = Carbon::parse($now)->addMinute(env('VERIFY_TIME'))->isFuture();
+            if ($verify_time) {
+                $admin = Admin::latest()->select('email')->where('email', $token->email)->get()->last();
+                return Response()->json([
+                    'status'    => 200,
+                    'admin'     => $admin
+                ]);
+            }else{
+                return Response()->json([
+                    'status'    => 402,
+                    'message'   => 'Token is allready expire.'
+                ]);
+            }
+        } else {
+            return Response()->json([
+                'status'    => 402,
+                'message'   => 'Invalid token.'
+            ]);
+        }
+    }
+
+    public function changePassword(Request $request){
+        // return Response()->json($request->all());
+        $validator = Validator::make($request->all(),[
+            'change_password'        => ['required',Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised()],
+            'token'     => 'required',
+            'email'     => 'required'
+        ],[
+            'token.required'    => 'Token is required'
+        ]);
+        if($validator->fails()){
+            return Response()->json([
+                'status'    => 401,
+                'errors'    => $validator->errors()->all()
+            ]);
+        }
+        
+        $check_token = DB::table('password_reset_tokens')->where('token',$request->token)->get()->first();
+        if($check_token){
+            $now = $check_token->created_at;
+            $verify = Carbon::parse($now)->addMinute(env('VERIFY_TIME'))->isFuture();
+            if($verify){
+                $email = $request->email;
+                $admin = Admin::where('email',$email)->get()->first();
+                if($admin){
+                    $admin->password = Hash::make($request->change_password);
+                    if($admin->save()){
+                        $delete = DB::table('password_reset_tokens')->where('token',$request->token)->delete();
+                        return Response()->json([
+                            'status'    => 200,
+                            'message'   => 'Password Reset Successfully'
+                        ]);
+                    }
+                    
+                }else{
+                    return Response()->json([
+                        'status'    => 402,
+                        'message'   => 'Something went wrong. Password not changed'
+                    ]);
+                }
+            }else{
+                return Response()->json([
+                    'status'    => 402,
+                    'message'   => 'Password allready expired'
+                ]);
+            }
+        }else{
+            return Response()->json([
+                'status'    => 402,
+                'message'   => 'Invalid Token.'
+            ]);
+        }
 
     }
 }
