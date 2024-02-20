@@ -29,7 +29,7 @@ Route::prefix('admin')->group(function(){
 });
 
 
-Route::middleware(['auth:sanctum'])->group(function(){
+Route::middleware(['auth:sanctum','AdminGuard'])->group(function(){
     Route::prefix('admin')->group(function(){
         Route::get('/checkAdmin',function(){
             return Response()->json([

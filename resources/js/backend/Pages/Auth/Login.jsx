@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./../../assets/css/style.css";
-import "./../../assets/js/custom.js";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";

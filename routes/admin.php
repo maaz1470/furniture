@@ -31,4 +31,7 @@ Route::middleware(['auth:sanctum','AdminGuard'])->group(function(){
             Route::get('/',[DashboardController::class, 'dashboard'])->name('index');
         });
     });
+    Route::get('hello',function(){
+        return 'hello Something';
+    });
 });
