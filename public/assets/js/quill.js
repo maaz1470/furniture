@@ -83,7 +83,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var container_1 = __webpack_require__(17);
@@ -127,7 +127,7 @@ exports.default = Parchment;
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -613,7 +613,7 @@ module.exports = Delta;
 /* 3 */
 /***/ (function(module, exports) {
 
-'use strict';
+
 
 var hasOwn = Object.prototype.hasOwnProperty;
 var toStr = Object.prototype.toString;
@@ -705,7 +705,7 @@ module.exports = function extend() {
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -963,7 +963,7 @@ exports.default = Block;
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -1698,7 +1698,7 @@ exports.default = Quill;
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -1788,7 +1788,7 @@ exports.default = Inline;
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -1825,7 +1825,7 @@ exports.default = TextBlot;
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -1941,7 +1941,7 @@ exports.default = Emitter;
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -1967,7 +1967,7 @@ exports.default = Module;
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -2105,7 +2105,7 @@ function objEquiv(a, b, opts) {
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var Registry = __webpack_require__(1);
@@ -2168,7 +2168,7 @@ exports.default = Attributor;
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -2370,7 +2370,7 @@ exports.default = CodeBlock;
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -2738,7 +2738,7 @@ exports.default = Editor;
 /* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -3227,7 +3227,7 @@ exports.default = Selection;
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -3297,7 +3297,7 @@ exports.default = Break;
 /* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -3563,7 +3563,7 @@ exports.default = ContainerBlot;
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -3645,7 +3645,7 @@ exports.default = FormatBlot;
 /* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -3841,7 +3841,7 @@ module.exports = lib;
 /***/ (function(module, exports) {
 
 var clone = (function() {
-'use strict';
+
 
 function _instanceof(obj, type) {
   return type != null && obj instanceof type;
@@ -4097,7 +4097,7 @@ if (typeof module === 'object' && module.exports) {
 /* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -4350,7 +4350,7 @@ exports.default = Scroll;
 /* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -4956,7 +4956,7 @@ exports.SHORTKEY = SHORTKEY;
 /* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -5139,7 +5139,7 @@ exports.default = Cursor;
 /* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -5182,7 +5182,7 @@ exports.default = Container;
 /* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -5245,7 +5245,7 @@ exports.ColorStyle = ColorStyle;
 /* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -5328,7 +5328,7 @@ exports.sanitize = _sanitize;
 /* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -5568,7 +5568,7 @@ exports.default = Picker;
 /* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -5653,7 +5653,7 @@ exports.default = _quill2.default;
 /* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var Registry = __webpack_require__(1);
@@ -5816,7 +5816,7 @@ exports.default = ShadowBlot;
 /* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var attributor_1 = __webpack_require__(12);
@@ -5893,7 +5893,7 @@ exports.default = AttributorStore;
 /* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -5956,7 +5956,7 @@ exports.default = ClassAttributor;
 /* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -6019,7 +6019,7 @@ exports.default = StyleAttributor;
 /* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -6075,7 +6075,7 @@ exports.default = Theme;
 /* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -6196,7 +6196,7 @@ exports.default = Embed;
 /* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -6227,7 +6227,7 @@ exports.AlignStyle = AlignStyle;
 /* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -6257,7 +6257,7 @@ exports.BackgroundStyle = BackgroundStyle;
 /* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -6288,7 +6288,7 @@ exports.DirectionStyle = DirectionStyle;
 /* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -6347,7 +6347,7 @@ exports.FontClass = FontClass;
 /* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -6377,7 +6377,7 @@ exports.SizeStyle = SizeStyle;
 /* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 module.exports = {
@@ -6434,7 +6434,7 @@ module.exports = {
 /* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -6602,7 +6602,7 @@ exports.getLastChangeIndex = getLastChangeIndex;
 /* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -6945,7 +6945,7 @@ exports.default = BaseTheme;
 /* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var LinkedList = /** @class */ (function () {
@@ -7086,7 +7086,7 @@ exports.default = LinkedList;
 /* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -7270,7 +7270,7 @@ exports.default = ScrollBlot;
 /* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -7355,7 +7355,7 @@ exports.default = InlineBlot;
 /* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -7431,7 +7431,7 @@ exports.default = BlockBlot;
 /* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -7479,7 +7479,7 @@ exports.default = EmbedBlot;
 /* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -7582,7 +7582,7 @@ exports.default = TextBlot;
 /* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 var elem = document.createElement('div');
@@ -8438,7 +8438,7 @@ function unsupported(object){
 /* 54 */
 /***/ (function(module, exports) {
 
-'use strict';
+
 
 var has = Object.prototype.hasOwnProperty
   , prefix = '~';
@@ -8755,7 +8755,7 @@ if ('undefined' !== typeof module) {
 /* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -9179,7 +9179,7 @@ exports.matchText = matchText;
 /* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -9243,7 +9243,7 @@ exports.default = Bold;
 /* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -9574,7 +9574,7 @@ module.exports = "<svg viewbox=\"0 0 18 18\"> <polyline class=\"ql-even ql-strok
 /* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -9645,7 +9645,7 @@ exports.default = ColorPicker;
 /* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -9703,7 +9703,7 @@ exports.default = IconPicker;
 /* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -9782,7 +9782,7 @@ exports.default = Tooltip;
 /* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -9962,7 +9962,7 @@ exports.default = SnowTheme;
 /* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -10143,7 +10143,7 @@ exports.default = _core2.default;
 /* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -10216,7 +10216,7 @@ exports.IndentClass = IndentClass;
 /* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -10256,7 +10256,7 @@ exports.default = Blockquote;
 /* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -10305,7 +10305,7 @@ exports.default = Header;
 /* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -10502,7 +10502,7 @@ exports.default = List;
 /* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -10542,7 +10542,7 @@ exports.default = Italic;
 /* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -10606,7 +10606,7 @@ exports.default = Script;
 /* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -10646,7 +10646,7 @@ exports.default = Strike;
 /* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -10686,7 +10686,7 @@ exports.default = Underline;
 /* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -10784,7 +10784,7 @@ exports.default = Image;
 /* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -10877,7 +10877,7 @@ exports.default = Video;
 /* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -10976,7 +10976,7 @@ exports.default = Formula;
 /* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {
@@ -11315,7 +11315,7 @@ module.exports = "<svg viewbox=\"0 0 18 18\"> <polygon class=ql-stroke points=\"
 /* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+
 
 
 Object.defineProperty(exports, "__esModule", {

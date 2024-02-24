@@ -1,13 +1,67 @@
-import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
-import Logo from './../assets/images/logo.svg'
-import UserProfile from './../assets/images/user-profile.jpeg'
+import React, { useEffect, useState } from "react";
+import {Link, Outlet, json, useLocation} from "react-router-dom";
+import Logo from "./../assets/images/logo.svg";
+import UserProfile from "./../assets/images/user-profile.jpeg";
+import { AdminURL } from "./../hook/useAdminUrl";
 
 const DashboardLayout = () => {
+    const [profileCollaps, setProfileCollaps] = useState(false);
+    const [showTopButton, setShowTopButton] = useState(true);
+    const [sidebar, setSidebar] = useState(true);
+    const [expandMenu, setExpandMenu] = useState({
+        dashboard: false,
+        category: false,
+    });
 
-    const [profileCollaps, setProfileCollaps] = useState(false)
-    const [showTopButton, setShowTopButton] = useState(true)
-    
+    const location = useLocation();
+
+
+
+    useEffect(() => {
+        console.log('something')
+        if(location.pathname == `${AdminURL}/dashboard`){
+            setExpandMenu({
+                dashboard: true
+            });
+        }else if(location.pathname == `${AdminURL}/category`){
+            setExpandMenu({
+                category: true
+            })
+        }
+    },[location.pathname])
+
+    const handleExpandMenu = (e, menu) => {
+        setExpandMenu({
+            ...expandMenu,
+            [e.target.name]: menu,
+        });
+    };
+
+    const handleToggleMenu = (e, collapse) => {
+        e.preventDefault();
+        const nav = document.getElementById("navigation");
+        const main_content = document.getElementById("main-content");
+        if (collapse == "content-collapse") {
+            if (sidebar) {
+                nav.style.marginLeft = "-260px";
+                main_content.style.marginLeft = "0";
+            } else {
+                nav.style.marginLeft = "0";
+                main_content.style.marginLeft = "260px";
+            }
+        } else if (collapse == "nav-collapse") {
+            if (sidebar) {
+                nav.style.marginLeft = "-260px";
+                main_content.style.marginLeft = "0";
+                e.target.style.display = "none";
+            } else {
+                nav.style.display = "block";
+                main_content.style.marginLeft = "260px";
+            }
+        }
+        setSidebar(!sidebar);
+    };
+
     return (
         <div>
             <div
@@ -51,7 +105,10 @@ const DashboardLayout = () => {
 
             <div className="main-container min-h-screen text-black dark:text-white-dark navbar-sticky">
                 <div className="dark text-white-dark">
-                    <nav className="sidebar fixed top-0 bottom-0 z-50 h-full min-h-screen w-[260px] shadow-[5px_0_25px_0_rgba(94,92,154,0.1)] transition-all duration-300">
+                    <nav
+                        id="navigation"
+                        className="sidebar fixed top-0 bottom-0 z-50 h-full min-h-screen w-[260px] shadow-[5px_0_25px_0_rgba(94,92,154,0.1)] transition-all duration-300"
+                    >
                         <div className="h-full bg-white dark:bg-[#0e1726]">
                             <div className="flex items-center justify-between px-4 py-3">
                                 <a
@@ -64,47 +121,59 @@ const DashboardLayout = () => {
                                         alt="image"
                                     />
                                     <span className="align-middle text-2xl font-semibold ml-1.5 rtl:mr-1.5 dark:text-white-light lg:inline">
-                                        VRISTO
+                                        ORION
                                     </span>
                                 </a>
-                                <a
-                                    href="#"
-                                    className="collapse-icon flex h-8 w-8 items-center rounded-full transition duration-300 hover:bg-gray-500/10 rtl:rotate-180 dark:text-white-light dark:hover:bg-dark-light/10"
-                                >
-                                    <svg
-                                        className="m-auto h-5 w-5"
-                                        width="20"
-                                        height="20"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
+                                {sidebar && (
+                                    <a
+                                        href="#"
+                                        className="collapse-icon flex h-8 w-8 items-center rounded-full transition duration-300 hover:bg-gray-500/10 rtl:rotate-180 dark:text-white-light dark:hover:bg-dark-light/10"
+                                        onClick={(e) =>
+                                            handleToggleMenu(e, "nav-collapse")
+                                        }
                                     >
-                                        <path
-                                            d="M13 19L7 12L13 5"
-                                            stroke="currentColor"
-                                            strokeWidth="1.5"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                        <path
-                                            opacity="0.5"
-                                            d="M16.9998 19L10.9998 12L16.9998 5"
-                                            stroke="currentColor"
-                                            strokeWidth="1.5"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                    </svg>
-                                </a>
+                                        <svg
+                                            className="m-auto h-5 w-5"
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M13 19L7 12L13 5"
+                                                stroke="currentColor"
+                                                strokeWidth="1.5"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                            <path
+                                                opacity="0.5"
+                                                d="M16.9998 19L10.9998 12L16.9998 5"
+                                                stroke="currentColor"
+                                                strokeWidth="1.5"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                        </svg>
+                                    </a>
+                                )}
                             </div>
-                            <ul
-                                className="perfect-scrollbar relative h-[calc(100vh-80px)] space-y-0.5 overflow-y-auto overflow-x-hidden p-4 py-0 font-semibold ps ps--active-y "
-                                x-data="{ activeDropdown: 'dashboard' }"
-                            >
+                            <ul className="perfect-scrollbar relative h-[calc(100vh-80px)] space-y-0.5 overflow-y-auto overflow-x-hidden p-4 py-0 font-semibold ps ps--active-y ">
                                 <li className="menu nav-item">
-                                    <button
+                                    <Link
+                                        to={`${AdminURL}/dashboard`}
                                         type="button"
-                                        className="nav-link group active"
+                                        className={`nav-link group ${
+                                            expandMenu.dashboard && "active"
+                                        }`}
+                                        onClick={(e) =>
+                                            handleExpandMenu(
+                                                e,
+                                                !expandMenu.dashboard
+                                            )
+                                        }
+                                        name="dashboard"
                                     >
                                         <div className="flex items-center">
                                             <svg
@@ -126,77 +195,28 @@ const DashboardLayout = () => {
                                                 />
                                             </svg>
 
-                                            <span className="text-black pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">
+                                            <span
+                                                className="text-black pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark"
+                                                name="dashboard"
+                                            >
                                                 Dashboard
                                             </span>
                                         </div>
-                                        <div className="rtl:rotate-180 !rotate-90">
-                                            <svg
-                                                width="16"
-                                                height="16"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                                <path
-                                                    d="M9 5L15 12L9 19"
-                                                    stroke="currentColor"
-                                                    strokeWidth="1.5"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                />
-                                            </svg>
-                                        </div>
-                                    </button>
-                                    <ul className="sub-menu text-gray-500">
-                                        <li>
-                                            <a href="index.html">Sales</a>
-                                        </li>
-                                        <li>
-                                            <a href="analytics.html">
-                                                Analytics
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a
-                                                href="finance.html"
-                                                className="active"
-                                            >
-                                                Finance
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="crypto.html">Crypto</a>
-                                        </li>
-                                    </ul>
+                                        <div
+                                            className={`rtl:rotate-180 ${
+                                                expandMenu.dashboard &&
+                                                "!rotate-90"
+                                            }`}
+                                        ></div>
+                                    </Link>
                                 </li>
-
-                                <h2 className="-mx-4 mb-1 flex items-center bg-white-light/30 py-3 px-7 font-extrabold uppercase dark:bg-dark dark:bg-opacity-[0.08]">
-                                    <svg
-                                        className="hidden h-5 w-4 flex-none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        strokeWidth="1.5"
-                                        fill="none"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    >
-                                        <line
-                                            x1="5"
-                                            y1="12"
-                                            x2="19"
-                                            y2="12"
-                                        ></line>
-                                    </svg>
-                                    <span>Apps</span>
-                                </h2>
 
                                 <li className="nav-item">
                                     <ul>
                                         <li className="nav-item">
-                                            <a
-                                                href="apps-chat.html"
-                                                className="group"
+                                            <Link
+                                                to={`${AdminURL}/category`}
+                                                className={`group ${expandMenu.category && 'active'}`}
                                             >
                                                 <div className="flex items-center">
                                                     <svg
@@ -208,22 +228,26 @@ const DashboardLayout = () => {
                                                         xmlns="http://www.w3.org/2000/svg"
                                                     >
                                                         <path
-                                                            fillRule="evenodd"
-                                                            clipRule="evenodd"
-                                                            d="M10.4036 22.4797L10.6787 22.015C11.1195 21.2703 11.3399 20.8979 11.691 20.6902C12.0422 20.4825 12.5001 20.4678 13.4161 20.4385C14.275 20.4111 14.8523 20.3361 15.3458 20.1317C16.385 19.7012 17.2106 18.8756 17.641 17.8365C17.9639 17.0571 17.9639 16.0691 17.9639 14.093V13.2448C17.9639 10.4683 17.9639 9.08006 17.3389 8.06023C16.9892 7.48958 16.5094 7.0098 15.9388 6.66011C14.919 6.03516 13.5307 6.03516 10.7542 6.03516H8.20964C5.43314 6.03516 4.04489 6.03516 3.02507 6.66011C2.45442 7.0098 1.97464 7.48958 1.62495 8.06023C1 9.08006 1 10.4683 1 13.2448V14.093C1 16.0691 1 17.0571 1.32282 17.8365C1.75326 18.8756 2.57886 19.7012 3.61802 20.1317C4.11158 20.3361 4.68882 20.4111 5.5477 20.4385C6.46368 20.4678 6.92167 20.4825 7.27278 20.6902C7.6239 20.8979 7.84431 21.2703 8.28514 22.015L8.5602 22.4797C8.97002 23.1721 9.9938 23.1721 10.4036 22.4797ZM13.1928 14.5171C13.7783 14.5171 14.253 14.0424 14.253 13.4568C14.253 12.8713 13.7783 12.3966 13.1928 12.3966C12.6072 12.3966 12.1325 12.8713 12.1325 13.4568C12.1325 14.0424 12.6072 14.5171 13.1928 14.5171ZM10.5422 13.4568C10.5422 14.0424 10.0675 14.5171 9.48193 14.5171C8.89637 14.5171 8.42169 14.0424 8.42169 13.4568C8.42169 12.8713 8.89637 12.3966 9.48193 12.3966C10.0675 12.3966 10.5422 12.8713 10.5422 13.4568ZM5.77108 14.5171C6.35664 14.5171 6.83133 14.0424 6.83133 13.4568C6.83133 12.8713 6.35664 12.3966 5.77108 12.3966C5.18553 12.3966 4.71084 12.8713 4.71084 13.4568C4.71084 14.0424 5.18553 14.5171 5.77108 14.5171Z"
+                                                            d="M8.42229 20.6181C10.1779 21.5395 11.0557 22.0001 12 22.0001V12.0001L2.63802 7.07275C2.62423 7.09491 2.6107 7.11727 2.5974 7.13986C2 8.15436 2 9.41678 2 11.9416V12.0586C2 14.5834 2 15.8459 2.5974 16.8604C3.19479 17.8749 4.27063 18.4395 6.42229 19.5686L8.42229 20.6181Z"
+                                                            fill="currentColor"
+                                                        />
+                                                        <path
+                                                            opacity="0.7"
+                                                            d="M17.5774 4.43152L15.5774 3.38197C13.8218 2.46066 12.944 2 11.9997 2C11.0554 2 10.1776 2.46066 8.42197 3.38197L6.42197 4.43152C4.31821 5.53552 3.24291 6.09982 2.6377 7.07264L11.9997 12L21.3617 7.07264C20.7564 6.09982 19.6811 5.53552 17.5774 4.43152Z"
                                                             fill="currentColor"
                                                         />
                                                         <path
                                                             opacity="0.5"
-                                                            d="M15.486 1C16.7529 0.999992 17.7603 0.999986 18.5683 1.07681C19.3967 1.15558 20.0972 1.32069 20.7212 1.70307C21.3632 2.09648 21.9029 2.63623 22.2963 3.27821C22.6787 3.90219 22.8438 4.60265 22.9226 5.43112C22.9994 6.23907 22.9994 7.24658 22.9994 8.51343V9.37869C22.9994 10.2803 22.9994 10.9975 22.9597 11.579C22.9191 12.174 22.8344 12.6848 22.6362 13.1632C22.152 14.3323 21.2232 15.2611 20.0541 15.7453C20.0249 15.7574 19.9955 15.7691 19.966 15.7804C19.8249 15.8343 19.7039 15.8806 19.5978 15.915H17.9477C17.9639 15.416 17.9639 14.8217 17.9639 14.093V13.2448C17.9639 10.4683 17.9639 9.08006 17.3389 8.06023C16.9892 7.48958 16.5094 7.0098 15.9388 6.66011C14.919 6.03516 13.5307 6.03516 10.7542 6.03516H8.20964C7.22423 6.03516 6.41369 6.03516 5.73242 6.06309V4.4127C5.76513 4.29934 5.80995 4.16941 5.86255 4.0169C5.95202 3.75751 6.06509 3.51219 6.20848 3.27821C6.60188 2.63623 7.14163 2.09648 7.78361 1.70307C8.40759 1.32069 9.10805 1.15558 9.93651 1.07681C10.7445 0.999986 11.7519 0.999992 13.0188 1H15.486Z"
+                                                            d="M21.4026 7.13986C21.3893 7.11727 21.3758 7.09491 21.362 7.07275L12 12.0001V22.0001C12.9443 22.0001 13.8221 21.5395 15.5777 20.6181L17.5777 19.5686C19.7294 18.4395 20.8052 17.8749 21.4026 16.8604C22 15.8459 22 14.5834 22 12.0586V11.9416C22 9.41678 22 8.15436 21.4026 7.13986Z"
                                                             fill="currentColor"
                                                         />
                                                     </svg>
-                                                    <span className="text-black pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">
-                                                        Chat
+                                                    <span
+                                                        className="text-black pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">
+                                                        Category
                                                     </span>
                                                 </div>
-                                            </a>
+                                            </Link>
                                         </li>
                                         <li className="nav-item">
                                             <a
@@ -409,9 +433,19 @@ const DashboardLayout = () => {
                                             </a>
                                         </li>
                                         <li className="menu nav-item">
-                                            <button
-                                                type="button"
-                                                className="nav-link group"
+                                            <Link
+                                                to={`${AdminURL}/dashboard`}
+                                                className={`nav-link group ${
+                                                    expandMenu.invoice &&
+                                                    "active"
+                                                }`}
+                                                onClick={(e) =>
+                                                    handleExpandMenu(
+                                                        e,
+                                                        !expandMenu.invoice
+                                                    )
+                                                }
+                                                name="invoice"
                                             >
                                                 <div className="flex items-center">
                                                     <svg
@@ -440,7 +474,12 @@ const DashboardLayout = () => {
                                                         Invoice
                                                     </span>
                                                 </div>
-                                                <div className="rtl:rotate-180">
+                                                <div
+                                                    className={`rtl:rotate-180 transition-all ${
+                                                        expandMenu.invoice &&
+                                                        "!rotate-90"
+                                                    }`}
+                                                >
                                                     <svg
                                                         width="16"
                                                         height="16"
@@ -457,34 +496,34 @@ const DashboardLayout = () => {
                                                         />
                                                     </svg>
                                                 </div>
-                                            </button>
-                                            <ul
-                                                x-cloak="true"
-                                                x-show="activeDropdown === 'invoice'"
-                                                x-collapse="true"
-                                                className="sub-menu text-gray-500"
-                                            >
-                                                <li>
-                                                    <a href="apps-invoice-list.html">
-                                                        List
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="apps-invoice-preview.html">
-                                                        Preview
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="apps-invoice-add.html">
-                                                        Add
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="apps-invoice-edit.html">
-                                                        Edit
-                                                    </a>
-                                                </li>
-                                            </ul>
+                                            </Link>
+                                            {expandMenu.invoice && (
+                                                <ul
+                                                    x-collapse="true"
+                                                    className="sub-menu text-gray-500 transition-all"
+                                                >
+                                                    <li>
+                                                        <a href="apps-invoice-list.html">
+                                                            List
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="apps-invoice-preview.html">
+                                                            Preview
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="apps-invoice-add.html">
+                                                            Add
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="apps-invoice-edit.html">
+                                                            Edit
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            )}
                                         </li>
                                         <li className="nav-item">
                                             <a
@@ -1754,43 +1793,54 @@ const DashboardLayout = () => {
                     </nav>
                 </div>
 
-                <div className="main-content flex flex-col min-h-screen">
+                <div
+                    className="main-content flex flex-col min-h-screen"
+                    id="main-content"
+                >
                     <header className="z-40">
                         <div className="shadow-sm">
                             <div className="relative flex w-full items-center bg-white px-5 py-2.5 dark:bg-[#0e1726]">
                                 <div className="horizontal-logo flex items-center justify-between mr-2 rtl:ml-2 lg:hidden">
-                                    <a
-                                        href="#"
-                                        className="collapse-icon flex flex-none rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary ml-2 rtl:mr-2 dark:bg-dark/40 dark:text-[#d0d2d6] dark:hover:bg-dark/60 dark:hover:text-primary lg:hidden"
-                                    >
-                                        <svg
-                                            width="20"
-                                            height="20"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
+                                    {!sidebar && (
+                                        <a
+                                            href="#"
+                                            className="collapse-icon flex flex-none rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary ml-2 rtl:mr-2 dark:bg-dark/40 dark:text-[#d0d2d6] dark:hover:bg-dark/60 dark:hover:text-primary lg:hidden"
+                                            onClick={(e) =>
+                                                handleToggleMenu(
+                                                    e,
+                                                    "content-collapse"
+                                                )
+                                            }
                                         >
-                                            <path
-                                                d="M20 7L4 7"
-                                                stroke="currentColor"
-                                                strokeWidth="1.5"
-                                                strokeLinecap="round"
-                                            />
-                                            <path
-                                                opacity="0.5"
-                                                d="M20 12L4 12"
-                                                stroke="currentColor"
-                                                strokeWidth="1.5"
-                                                strokeLinecap="round"
-                                            />
-                                            <path
-                                                d="M20 17L4 17"
-                                                stroke="currentColor"
-                                                strokeWidth="1.5"
-                                                strokeLinecap="round"
-                                            />
-                                        </svg>
-                                    </a>
+                                            <svg
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    d="M20 7L4 7"
+                                                    stroke="currentColor"
+                                                    strokeWidth="1.5"
+                                                    strokeLinecap="round"
+                                                />
+                                                <path
+                                                    opacity="0.5"
+                                                    d="M20 12L4 12"
+                                                    stroke="currentColor"
+                                                    strokeWidth="1.5"
+                                                    strokeLinecap="round"
+                                                />
+                                                <path
+                                                    d="M20 17L4 17"
+                                                    stroke="currentColor"
+                                                    strokeWidth="1.5"
+                                                    strokeLinecap="round"
+                                                />
+                                            </svg>
+                                        </a>
+                                    )}
                                 </div>
                                 <div className="flex items-center space-x-1.5 ml-auto rtl:mr-auto rtl:space-x-reverse dark:text-[#d0d2d6] sm:flex-1 sm:ml-0 sm:rtl:mr-0 lg:space-x-2">
                                     <div
@@ -1831,7 +1881,15 @@ const DashboardLayout = () => {
                                         className="dropdown flex-shrink-0"
                                         x-data="dropdown"
                                     >
-                                        <a href="#" className="group relative" onClick={() => setProfileCollaps(!profileCollaps)}>
+                                        <a
+                                            href="#"
+                                            className="group relative"
+                                            onClick={() =>
+                                                setProfileCollaps(
+                                                    !profileCollaps
+                                                )
+                                            }
+                                        >
                                             <span>
                                                 <img
                                                     className="h-9 w-9 rounded-full object-cover saturate-50 group-hover:saturate-100"
@@ -1840,172 +1898,170 @@ const DashboardLayout = () => {
                                                 />
                                             </span>
                                         </a>
-                                        {
-                                            profileCollaps && (
-                                                <ul
-                                                    className="top-11 w-[230px] !py-0 font-semibold text-dark right-0 rtl:left-0 dark:text-white-dark dark:text-white-light/90"
-                                                >
-                                                    <li>
-                                                        <div className="flex items-center px-4 py-4">
-                                                            <div className="flex-none">
-                                                                <img
-                                                                    className="h-10 w-10 rounded-md object-cover"
-                                                                    src={UserProfile}
-                                                                    alt="image"
-                                                                />
-                                                            </div>
-                                                            <div className="truncate pl-4 rtl:pr-4">
-                                                                <h4 className="text-base">
-                                                                    John Doe
-                                                                    <span className="rounded bg-success-light px-1 text-xs text-success ml-2 rtl:ml-2">
-                                                                        Pro
-                                                                    </span>
-                                                                </h4>
-                                                                <a
-                                                                    className="text-black/60 hover:text-primary dark:text-dark-light/60 dark:hover:text-white"
-                                                                    href="#"
-                                                                >
-                                                                    johndoe@gmail.com
-                                                                </a>
-                                                            </div>
+                                        {profileCollaps && (
+                                            <ul className="top-11 w-[230px] !py-0 font-semibold text-dark right-0 rtl:left-0 dark:text-white-dark dark:text-white-light/90">
+                                                <li>
+                                                    <div className="flex items-center px-4 py-4">
+                                                        <div className="flex-none">
+                                                            <img
+                                                                className="h-10 w-10 rounded-md object-cover"
+                                                                src={
+                                                                    UserProfile
+                                                                }
+                                                                alt="image"
+                                                            />
                                                         </div>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            href="users-profile.html"
-                                                            className="dark:hover:text-white"
-                                                        >
-                                                            <svg
-                                                                className="h-4.5 w-4.5 shrink-0 mr-2 rtl:ml-2"
-                                                                width="18"
-                                                                height="18"
-                                                                viewBox="0 0 24 24"
-                                                                fill="none"
-                                                                xmlns="http://www.w3.org/2000/svg"
+                                                        <div className="truncate pl-4 rtl:pr-4">
+                                                            <h4 className="text-base">
+                                                                John Doe
+                                                                <span className="rounded bg-success-light px-1 text-xs text-success ml-2 rtl:ml-2">
+                                                                    Pro
+                                                                </span>
+                                                            </h4>
+                                                            <a
+                                                                className="text-black/60 hover:text-primary dark:text-dark-light/60 dark:hover:text-white"
+                                                                href="#"
                                                             >
-                                                                <circle
-                                                                    cx="12"
-                                                                    cy="6"
-                                                                    r="4"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth="1.5"
-                                                                />
-                                                                <path
-                                                                    opacity="0.5"
-                                                                    d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth="1.5"
-                                                                />
-                                                            </svg>
-                                                            Profile
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            href="apps-mailbox.html"
-                                                            className="dark:hover:text-white"
+                                                                johndoe@gmail.com
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="users-profile.html"
+                                                        className="dark:hover:text-white"
+                                                    >
+                                                        <svg
+                                                            className="h-4.5 w-4.5 shrink-0 mr-2 rtl:ml-2"
+                                                            width="18"
+                                                            height="18"
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg"
                                                         >
-                                                            <svg
-                                                                className="h-4.5 w-4.5 shrink-0 mr-2 rtl:ml-2"
-                                                                width="18"
-                                                                height="18"
-                                                                viewBox="0 0 24 24"
-                                                                fill="none"
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                            >
-                                                                <path
-                                                                    opacity="0.5"
-                                                                    d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12C22 15.7712 22 17.6569 20.8284 18.8284C19.6569 20 17.7712 20 14 20H10C6.22876 20 4.34315 20 3.17157 18.8284C2 17.6569 2 15.7712 2 12Z"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth="1.5"
-                                                                />
-                                                                <path
-                                                                    d="M6 8L8.1589 9.79908C9.99553 11.3296 10.9139 12.0949 12 12.0949C13.0861 12.0949 14.0045 11.3296 15.8411 9.79908L18 8"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth="1.5"
-                                                                    strokeLinecap="round"
-                                                                />
-                                                            </svg>
-                                                            Inbox
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            href="auth-boxed-lockscreen.html"
-                                                            className="dark:hover:text-white"
+                                                            <circle
+                                                                cx="12"
+                                                                cy="6"
+                                                                r="4"
+                                                                stroke="currentColor"
+                                                                strokeWidth="1.5"
+                                                            />
+                                                            <path
+                                                                opacity="0.5"
+                                                                d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z"
+                                                                stroke="currentColor"
+                                                                strokeWidth="1.5"
+                                                            />
+                                                        </svg>
+                                                        Profile
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="apps-mailbox.html"
+                                                        className="dark:hover:text-white"
+                                                    >
+                                                        <svg
+                                                            className="h-4.5 w-4.5 shrink-0 mr-2 rtl:ml-2"
+                                                            width="18"
+                                                            height="18"
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg"
                                                         >
-                                                            <svg
-                                                                className="h-4.5 w-4.5 shrink-0 mr-2 rtl:ml-2"
-                                                                width="18"
-                                                                height="18"
-                                                                viewBox="0 0 24 24"
-                                                                fill="none"
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                            >
-                                                                <path
-                                                                    d="M2 16C2 13.1716 2 11.7574 2.87868 10.8787C3.75736 10 5.17157 10 8 10H16C18.8284 10 20.2426 10 21.1213 10.8787C22 11.7574 22 13.1716 22 16C22 18.8284 22 20.2426 21.1213 21.1213C20.2426 22 18.8284 22 16 22H8C5.17157 22 3.75736 22 2.87868 21.1213C2 20.2426 2 18.8284 2 16Z"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth="1.5"
-                                                                />
-                                                                <path
-                                                                    opacity="0.5"
-                                                                    d="M6 10V8C6 4.68629 8.68629 2 12 2C15.3137 2 18 4.68629 18 8V10"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth="1.5"
-                                                                    strokeLinecap="round"
-                                                                />
-                                                                <g opacity="0.5">
-                                                                    <path
-                                                                        d="M9 16C9 16.5523 8.55228 17 8 17C7.44772 17 7 16.5523 7 16C7 15.4477 7.44772 15 8 15C8.55228 15 9 15.4477 9 16Z"
-                                                                        fill="currentColor"
-                                                                    />
-                                                                    <path
-                                                                        d="M13 16C13 16.5523 12.5523 17 12 17C11.4477 17 11 16.5523 11 16C11 15.4477 11.4477 15 12 15C12.5523 15 13 15.4477 13 16Z"
-                                                                        fill="currentColor"
-                                                                    />
-                                                                    <path
-                                                                        d="M17 16C17 16.5523 16.5523 17 16 17C15.4477 17 15 16.5523 15 16C15 15.4477 15.4477 15 16 15C16.5523 15 17 15.4477 17 16Z"
-                                                                        fill="currentColor"
-                                                                    />
-                                                                </g>
-                                                            </svg>
-                                                            Lock Screen
-                                                        </a>
-                                                    </li>
-                                                    <li className="border-t border-white-light dark:border-white-light/10">
-                                                        <a
-                                                            href="auth-boxed-signin.html"
-                                                            className="!py-3 text-danger"
+                                                            <path
+                                                                opacity="0.5"
+                                                                d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12C22 15.7712 22 17.6569 20.8284 18.8284C19.6569 20 17.7712 20 14 20H10C6.22876 20 4.34315 20 3.17157 18.8284C2 17.6569 2 15.7712 2 12Z"
+                                                                stroke="currentColor"
+                                                                strokeWidth="1.5"
+                                                            />
+                                                            <path
+                                                                d="M6 8L8.1589 9.79908C9.99553 11.3296 10.9139 12.0949 12 12.0949C13.0861 12.0949 14.0045 11.3296 15.8411 9.79908L18 8"
+                                                                stroke="currentColor"
+                                                                strokeWidth="1.5"
+                                                                strokeLinecap="round"
+                                                            />
+                                                        </svg>
+                                                        Inbox
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        href="auth-boxed-lockscreen.html"
+                                                        className="dark:hover:text-white"
+                                                    >
+                                                        <svg
+                                                            className="h-4.5 w-4.5 shrink-0 mr-2 rtl:ml-2"
+                                                            width="18"
+                                                            height="18"
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg"
                                                         >
-                                                            <svg
-                                                                className="h-4.5 w-4.5 rotate-90 mr-2 rtl:ml-2"
-                                                                width="18"
-                                                                height="18"
-                                                                viewBox="0 0 24 24"
-                                                                fill="none"
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                            >
+                                                            <path
+                                                                d="M2 16C2 13.1716 2 11.7574 2.87868 10.8787C3.75736 10 5.17157 10 8 10H16C18.8284 10 20.2426 10 21.1213 10.8787C22 11.7574 22 13.1716 22 16C22 18.8284 22 20.2426 21.1213 21.1213C20.2426 22 18.8284 22 16 22H8C5.17157 22 3.75736 22 2.87868 21.1213C2 20.2426 2 18.8284 2 16Z"
+                                                                stroke="currentColor"
+                                                                strokeWidth="1.5"
+                                                            />
+                                                            <path
+                                                                opacity="0.5"
+                                                                d="M6 10V8C6 4.68629 8.68629 2 12 2C15.3137 2 18 4.68629 18 8V10"
+                                                                stroke="currentColor"
+                                                                strokeWidth="1.5"
+                                                                strokeLinecap="round"
+                                                            />
+                                                            <g opacity="0.5">
                                                                 <path
-                                                                    opacity="0.5"
-                                                                    d="M17 9.00195C19.175 9.01406 20.3529 9.11051 21.1213 9.8789C22 10.7576 22 12.1718 22 15.0002V16.0002C22 18.8286 22 20.2429 21.1213 21.1215C20.2426 22.0002 18.8284 22.0002 16 22.0002H8C5.17157 22.0002 3.75736 22.0002 2.87868 21.1215C2 20.2429 2 18.8286 2 16.0002L2 15.0002C2 12.1718 2 10.7576 2.87868 9.87889C3.64706 9.11051 4.82497 9.01406 7 9.00195"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth="1.5"
-                                                                    strokeLinecap="round"
+                                                                    d="M9 16C9 16.5523 8.55228 17 8 17C7.44772 17 7 16.5523 7 16C7 15.4477 7.44772 15 8 15C8.55228 15 9 15.4477 9 16Z"
+                                                                    fill="currentColor"
                                                                 />
                                                                 <path
-                                                                    d="M12 15L12 2M12 2L15 5.5M12 2L9 5.5"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth="1.5"
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
+                                                                    d="M13 16C13 16.5523 12.5523 17 12 17C11.4477 17 11 16.5523 11 16C11 15.4477 11.4477 15 12 15C12.5523 15 13 15.4477 13 16Z"
+                                                                    fill="currentColor"
                                                                 />
-                                                            </svg>
-                                                            Sign Out
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            )
-                                        }
+                                                                <path
+                                                                    d="M17 16C17 16.5523 16.5523 17 16 17C15.4477 17 15 16.5523 15 16C15 15.4477 15.4477 15 16 15C16.5523 15 17 15.4477 17 16Z"
+                                                                    fill="currentColor"
+                                                                />
+                                                            </g>
+                                                        </svg>
+                                                        Lock Screen
+                                                    </a>
+                                                </li>
+                                                <li className="border-t border-white-light dark:border-white-light/10">
+                                                    <a
+                                                        href="auth-boxed-signin.html"
+                                                        className="!py-3 text-danger"
+                                                    >
+                                                        <svg
+                                                            className="h-4.5 w-4.5 rotate-90 mr-2 rtl:ml-2"
+                                                            width="18"
+                                                            height="18"
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                        >
+                                                            <path
+                                                                opacity="0.5"
+                                                                d="M17 9.00195C19.175 9.01406 20.3529 9.11051 21.1213 9.8789C22 10.7576 22 12.1718 22 15.0002V16.0002C22 18.8286 22 20.2429 21.1213 21.1215C20.2426 22.0002 18.8284 22.0002 16 22.0002H8C5.17157 22.0002 3.75736 22.0002 2.87868 21.1215C2 20.2429 2 18.8286 2 16.0002L2 15.0002C2 12.1718 2 10.7576 2.87868 9.87889C3.64706 9.11051 4.82497 9.01406 7 9.00195"
+                                                                stroke="currentColor"
+                                                                strokeWidth="1.5"
+                                                                strokeLinecap="round"
+                                                            />
+                                                            <path
+                                                                d="M12 15L12 2M12 2L15 5.5M12 2L9 5.5"
+                                                                stroke="currentColor"
+                                                                strokeWidth="1.5"
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                            />
+                                                        </svg>
+                                                        Sign Out
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        )}
                                     </div>
                                 </div>
                             </div>

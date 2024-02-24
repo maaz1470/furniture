@@ -10,7 +10,7 @@ Route::prefix('auth')->group(function(){
     Route::get('/login',function(){
         return view('Backend.layout');
     })->name('admin.login');
-    
+
     Route::get('/register',function(){
         return view('Backend.Layout');
     })->middleware('RegistrationGuard');
@@ -31,6 +31,13 @@ Route::middleware(['auth:sanctum','AdminGuard'])->group(function(){
             Route::get('/',[DashboardController::class, 'dashboard'])->name('index');
         });
     });
+
+    Route::prefix('category')->group(function(){
+        Route::name('category.')->group(function(){
+            Route::get('/',[\App\Http\Controllers\CategoryController::class, 'category']);
+        });
+    });
+
     Route::get('hello',function(){
         return 'hello Something';
     });

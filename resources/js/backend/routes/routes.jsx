@@ -10,6 +10,7 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import ResetPassword from "../Pages/Auth/Reset/ResetPassword";
 import PasswordReset from "../Pages/Auth/Reset/PasswordReset";
+import Category from "@/backend/Pages/Category/Category.jsx";
 
 const routes = createBrowserRouter([
     {
@@ -45,6 +46,10 @@ const routes = createBrowserRouter([
                     {
                         path: 'dashboard',
                         element: <Dashboard />
+                    },
+                    {
+                        path: 'category',
+                        element: <Category />
                     }
                 ]
             }
