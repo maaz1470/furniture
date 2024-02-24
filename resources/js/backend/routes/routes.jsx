@@ -11,6 +11,7 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import ResetPassword from "../Pages/Auth/Reset/ResetPassword";
 import PasswordReset from "../Pages/Auth/Reset/PasswordReset";
 import Category from "@/backend/Pages/Category/Category.jsx";
+import NotFound from "@/backend/Pages/errors/not-found.jsx";
 
 const routes = createBrowserRouter([
     {
@@ -57,7 +58,7 @@ const routes = createBrowserRouter([
     },
     {
         path: '*',
-        element: <h1>404 not found.</h1>
+        element: <NotFound />
     }
 ]);
 

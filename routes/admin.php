@@ -39,6 +39,6 @@ Route::middleware(['auth:sanctum','AdminGuard'])->group(function(){
     });
 
     Route::get('hello',function(){
-        return 'hello Something';
+        return view('Backend.Layout');
     });
 });
