@@ -12,6 +12,8 @@ import ResetPassword from "../Pages/Auth/Reset/ResetPassword";
 import PasswordReset from "../Pages/Auth/Reset/PasswordReset";
 import Category from "@/backend/Pages/Category/Category.jsx";
 import NotFound from "@/backend/Pages/errors/not-found.jsx";
+import CategoryLayout from "../Pages/Category/CategoryLayout";
+import AddCategory from "../Pages/Category/AddCategory";
 
 const routes = createBrowserRouter([
     {
@@ -50,7 +52,17 @@ const routes = createBrowserRouter([
                     },
                     {
                         path: 'category',
-                        element: <Category />
+                        element: <CategoryLayout />,
+                        children: [
+                            {
+                                path: '',
+                                element: <Category />
+                            },
+                            {
+                                path: 'add',
+                                element: <AddCategory />
+                            }
+                        ]
                     }
                 ]
             }

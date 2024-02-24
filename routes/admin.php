@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\PasswordResetController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Auth\Events\PasswordReset;
 
 Route::prefix('auth')->group(function(){
@@ -34,7 +35,8 @@ Route::middleware(['auth:sanctum','AdminGuard'])->group(function(){
 
     Route::prefix('category')->group(function(){
         Route::name('category.')->group(function(){
-            Route::get('/',[\App\Http\Controllers\CategoryController::class, 'category']);
+            Route::get('/',[\App\Http\Controllers\CategoryController::class, 'category'])->name('page');
+            Route::get('/add',[CategoryController::class, 'add'])->name('add');
         });
     });
 

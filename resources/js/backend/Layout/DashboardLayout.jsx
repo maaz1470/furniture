@@ -18,7 +18,6 @@ const DashboardLayout = () => {
 
 
     useEffect(() => {
-        console.log('something')
         if(location.pathname == `${AdminURL}/dashboard`){
             setExpandMenu({
                 dashboard: true
