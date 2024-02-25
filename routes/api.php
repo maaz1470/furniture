@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\AdminController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -38,8 +39,13 @@ Route::middleware(['auth:sanctum','AdminGuard'])->group(function(){
             ]);
         });
     });
-});
 
+    Route::prefix('category')->group(function(){
+        Route::name('category.')->group(function(){
+            Route::post('/store',[CategoryController::class, 'store'])->name('store');
+        });
+    });
+});
 
 // Reset Api Route
 Route::prefix('auth/reset')->group(function(){
