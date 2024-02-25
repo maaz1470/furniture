@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./../../assets/css/style.css";
-import "./../../assets/js/custom.js";
 import { Helmet } from "react-helmet-async";
 import BG_Gradient from "./../../assets/images/auth/bg-gradient.png";
 import Coming_Soon from "./../../assets/images/auth/coming-soon-object1.png";

@@ -1,5 +1,5 @@
 var FileUploadWithPreview = (function (exports) {
-  'use strict';
+  
 
   exports.Events = void 0;
 

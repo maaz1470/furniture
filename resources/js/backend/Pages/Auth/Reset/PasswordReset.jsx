@@ -57,7 +57,6 @@ const PasswordReset = () => {
         }
 
         axios.post(`/api/auth/reset/change-password`,data).then(response => {
-            console.log(response)
             if(response.data.status === 200){
                 swal('Success',response.data.message,'success')
                 navigate(`${AdminURL}/auth/login`,{

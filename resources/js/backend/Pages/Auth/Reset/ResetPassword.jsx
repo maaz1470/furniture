@@ -11,6 +11,7 @@ import axios from "axios";
 import withProgress from './../../../HOC/withProgress'
 import swal from "sweetalert";
 import { toast } from "react-toastify";
+import './../../../assets/css/style.css'
 
 const ResetPassword = () => {
     const [processing, setProcessing] = useState(false);
@@ -27,7 +28,6 @@ const ResetPassword = () => {
         const email = form.email.value;
 
         axios.post(`/api/auth/reset/send-reset-link`,{email}).then(response => {
-            console.log(response)
             if(response.data.status === 200){
                 swal('Success',response.data.message,'success')
             }else if(response.data.status === 401){

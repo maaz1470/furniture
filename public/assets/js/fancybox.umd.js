@@ -6,7 +6,7 @@
         ? define(['exports'], e)
         : e(((t = 'undefined' != typeof globalThis ? globalThis : t || self).window = t.window || {}));
 })(this, function (t) {
-    'use strict';
+    
     function e(t, e) {
         var i = Object.keys(t);
         if (Object.getOwnPropertySymbols) {
