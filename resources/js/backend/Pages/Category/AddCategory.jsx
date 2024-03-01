@@ -1,8 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "./../../assets/images/product/product-1.jpg";
 import axios from "axios";
+import withProgress from "../../HOC/withProgress";
+import { AdminURL } from "../../hook/useAdminUrl";
+import Seo from "../../Component/Seo/Seo";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import swal from "sweetalert";
 const AddCategory = () => {
     const [processImage, setProcessImage] = useState(null);
+    const [keywords, setKeywords] = useState([]);
+
+    const handleChange = (tag) => {
+        setKeywords(tag);
+    };
+
+    useEffect(() => {
+        axios.get(`${AdminURL}/category/add`);
+    }, []);
 
     const handleImageChange = (e) => {
         let image;
@@ -21,18 +36,38 @@ const AddCategory = () => {
         const form = e.target;
         const name = form.name.value;
         const status = form.status.value;
-        
-        const data = new FormData();
-        data.append("name", name);
-        data.append("status", status);
-        data.append("image", processImage);
-        axios.post(`/api/category/store`, data).then((response) => {
-            console.log(response);
+        const meta_title = form.meta_title.value;
+        const meta_description = form.meta_description.value;
+
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("status", status);
+        formData.append("meta_title", meta_title);
+        formData.append("meta_description", meta_description);
+        formData.append("image", processImage);
+        formData.append("keywords", keywords);
+        axios.post(`/api/category/store`, formData).then((response) => {
+            if (response.data.status === 401) {
+                response.data.errors.forEach((el) =>
+                    toast.error(el, {
+                        position: "top-right",
+                    })
+                );
+            } else if (response.data.status === 200) {
+                swal("Success", response.data.message, "success");
+                const preview_image = document.getElementById("preview_image");
+                preview_image.src = Image;
+                setKeywords([])
+                form.reset();
+            }else{
+                swal('Error','Something went wrong. Please try again.','error')
+            }
         });
     };
 
     return (
         <div>
+            <ToastContainer />
             <div>
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
@@ -55,7 +90,7 @@ const AddCategory = () => {
                             <form
                                 className="space-y-5"
                                 onSubmit={handleSubmit}
-                                encType="multipart/data"
+                                encType="multipart/form-data"
                             >
                                 <div>
                                     <input
@@ -94,6 +129,11 @@ const AddCategory = () => {
                                     </select>
                                 </div>
 
+                                <br />
+                                <br />
+
+                                <Seo value={keywords} change={handleChange} />
+
                                 <button
                                     type="submit"
                                     className="btn btn-primary !mt-6"
@@ -109,4 +149,4 @@ const AddCategory = () => {
     );
 };
 
-export default AddCategory;
+export default withProgress(AddCategory);
