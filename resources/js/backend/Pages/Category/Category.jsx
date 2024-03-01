@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { AdminURL } from "../../hook/useAdminUrl";
+import withProgress from "../../HOC/withProgress";
+import axios from "axios";
 
 const Category = () => {
+    useEffect(() => {
+        axios.get(`${AdminURL}/category`)
+    },[])
     return (
         <div>
             <Helmet>
@@ -84,4 +89,4 @@ const Category = () => {
     );
 };
 
-export default Category;
+export default withProgress(Category);

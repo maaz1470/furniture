@@ -17,20 +17,18 @@ class AdminGuardMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        
-        if(Auth::guard('admin')->check()){
+
+        if (Auth::guard('admin')->check()) {
             return $next($request);
-        }else{
-            if($request->ajax()){
+        } else {
+            if ($request->ajax()) {
                 return Response()->json([
                     'status'    => 401,
                     'message'   => 'Unauthenticated'
                 ]);
-            }else{
+            } else {
                 return redirect()->route('admin.login');
             }
         }
-
-        
     }
 }
