@@ -86,4 +86,8 @@ class CategoryController extends Controller
             ]);
         }
     }
+
+    public function editCategory($id){
+        return view('Backend.Layout');
+    }
 }
