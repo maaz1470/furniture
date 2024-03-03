@@ -68,7 +68,6 @@ const Register = () => {
             };
 
             axios.post('/api/admin/register', data).then(response => {
-                console.log(response)
                 setProcessing(false)
                 if(response.data.status === 401){
                     response.data.errors.forEach(el => toast.error(el,{
@@ -85,8 +84,6 @@ const Register = () => {
                     toast.error(response.data.message)
                 }
                 
-            }).catch(error => {
-                console.log(error)
             })
 
         }else{

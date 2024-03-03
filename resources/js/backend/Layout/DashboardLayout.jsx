@@ -28,10 +28,9 @@ const DashboardLayout = () => {
             if(logout){
                 swal('Success','Logout Successfully','success')
                 axios.get('/api/admin/logout').then(response => {
-                    console.log(response)
                     if(response.data.status === 200){
                         localStorage.removeItem('rh_token')
-                        navigate(`${AdminURL}/auth/login`)
+                        window.location.reload()
                     }
                 })
             }

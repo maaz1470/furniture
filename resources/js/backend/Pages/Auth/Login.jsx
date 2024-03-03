@@ -42,7 +42,6 @@ const Login = () => {
         
         axios.post(`/api/admin/login`,data).then(response => {
             setProcessing(false)
-            console.log(response)
             if(response.data.status === 200){
                 if(response.data.authorization){
                     localStorage.setItem('rh_token',response.data.rh_token);
