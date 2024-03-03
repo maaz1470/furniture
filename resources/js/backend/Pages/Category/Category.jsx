@@ -7,7 +7,10 @@ import axios from "axios";
 
 const Category = () => {
     useEffect(() => {
-        axios.get(`${AdminURL}/category`)
+        // axios.get(`${AdminURL}/category`)
+        axios.get('/api/category/all').then(response => {
+            console.log(response)
+        })
     },[])
     return (
         <div>

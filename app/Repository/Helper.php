@@ -4,7 +4,7 @@ if (!function_exists('convert_array_to_string')) {
     function convert_array_to_string($request)
     {
         $data = '';
-        if($request->keywords != null and is_array($request->keywords)){
+        if($request->keywords != null && is_array($request->keywords)){
             foreach ($request->keywords as $index => $keyword) {
                 if ($index != count($request->keywords) - 1) {
                     $data .= $keyword . ',';
@@ -13,9 +13,10 @@ if (!function_exists('convert_array_to_string')) {
                     $data .= $keyword;
                 }
             }
-        }else{
-            return 'nai';
+        }elseif($request->keywords != null){
+            $data = $request->keywords;
         }
+
         return $data;
     }
 }

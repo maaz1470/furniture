@@ -33,7 +33,6 @@ class CategoryController extends Controller
     }
 
     public function store(Request $request){
-
         $validator = Validator::make($request->all(),[
             'name'      => 'required|string|max:255',
             'status'    => 'required'
@@ -85,5 +84,21 @@ class CategoryController extends Controller
                 'message'   => 'Something went wrong. Please try again.'
             ]);
         }
+    }
+
+
+    public function editCategory($id){
+        return view('Backend.Layout');
+    }
+
+    public function updateCategory(Request $request){
+        return Response()->json($request->all());
+    }
+
+
+    
+    public function all(){
+        $categories = Category::all();
+        return Response()->json($categories);
     }
 }
