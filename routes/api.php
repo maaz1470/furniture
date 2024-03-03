@@ -38,6 +38,8 @@ Route::middleware(['auth:sanctum','AdminGuard'])->group(function(){
                 'authorization' => true
             ]);
         });
+
+        Route::get('/logout',[AdminController::class, 'logout'])->name('admin.logout');
     });
 
     Route::prefix('category')->group(function(){

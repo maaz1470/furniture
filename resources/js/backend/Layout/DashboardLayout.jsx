@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {Link, Outlet, json, useLocation} from "react-router-dom";
+import {Link, Outlet, json, useLocation, useNavigate} from "react-router-dom";
 import Logo from "./../assets/images/logo.svg";
 import UserProfile from "./../assets/images/user-profile.jpeg";
 import { AdminURL } from "./../hook/useAdminUrl";
+import swal from "sweetalert";
+import axios from "axios";
 
 const DashboardLayout = () => {
     const [profileCollaps, setProfileCollaps] = useState(false);
@@ -12,8 +14,29 @@ const DashboardLayout = () => {
         dashboard: false,
         category: false,
     });
+    const navigate = useNavigate();
 
     const location = useLocation();
+
+    const handleLogout = () => {
+        swal({
+            title: 'Are you sure want to Logout?',
+            icon: 'warning',
+            buttons: true,
+            dangerMode: true
+        }).then((logout) => {
+            if(logout){
+                swal('Success','Logout Successfully','success')
+                axios.get('/api/admin/logout').then(response => {
+                    console.log(response)
+                    if(response.data.status === 200){
+                        localStorage.removeItem('rh_token')
+                        navigate(`${AdminURL}/auth/login`)
+                    }
+                })
+            }
+        })
+    }
 
 
 
@@ -2029,8 +2052,8 @@ const DashboardLayout = () => {
                                                     </a>
                                                 </li>
                                                 <li className="border-t border-white-light dark:border-white-light/10">
-                                                    <a
-                                                        href="auth-boxed-signin.html"
+                                                    <button
+                                                        onClick={handleLogout}
                                                         className="!py-3 text-danger"
                                                     >
                                                         <svg
@@ -2057,7 +2080,7 @@ const DashboardLayout = () => {
                                                             />
                                                         </svg>
                                                         Sign Out
-                                                    </a>
+                                                    </button>
                                                 </li>
                                             </ul>
                                         )}

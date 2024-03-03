@@ -223,4 +223,12 @@ class AdminController extends Controller
         }
 
     }
+
+    public function logout(){
+        Auth::guard('admin')->logout();
+        return Response()->json([
+            'status'    => 200,
+            'message'   => 'Logout Successfully Done'
+        ]);
+    }
 }
