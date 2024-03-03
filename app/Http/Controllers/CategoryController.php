@@ -90,4 +90,8 @@ class CategoryController extends Controller
     public function editCategory($id){
         return view('Backend.Layout');
     }
+
+    public function updateCategory(Request $request){
+        return Response()->json($request->all());
+    }
 }
