@@ -1,6 +1,4 @@
 import React from "react";
-import 'react-tagsinput/react-tagsinput.css'
-import Keywords from "./Keywords";
 import { TagsInput } from "react-tag-input-component";
 const Seo = ({value, change}) => {
     return (

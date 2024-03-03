@@ -7,6 +7,7 @@ import Seo from "../../Component/Seo/Seo";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import swal from "sweetalert";
+import { Helmet } from "react-helmet-async";
 const AddCategory = () => {
     const [processImage, setProcessImage] = useState(null);
     const [keywords, setKeywords] = useState([]);
@@ -47,6 +48,7 @@ const AddCategory = () => {
         formData.append("image", processImage);
         formData.append("keywords", keywords);
         axios.post(`/api/category/store`, formData).then((response) => {
+            console.log(response)
             if (response.data.status === 401) {
                 response.data.errors.forEach((el) =>
                     toast.error(el, {
@@ -68,6 +70,9 @@ const AddCategory = () => {
     return (
         <div>
             <ToastContainer />
+            <Helmet>
+                <title>Add Category</title>
+            </Helmet>
             <div>
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
