@@ -99,6 +99,9 @@ class CategoryController extends Controller
     
     public function all(){
         $categories = Category::all();
-        return Response()->json($categories);
+        return Response()->json([
+            'status'        => 200,
+            'categories'    => $categories
+        ]);
     }
 }

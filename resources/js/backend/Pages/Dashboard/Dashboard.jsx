@@ -6,8 +6,13 @@ import swal from "sweetalert";
 import { toast } from "react-toastify";
 import withProgress from "../../HOC/withProgress.jsx";
 import { Helmet } from "react-helmet-async";
+import { AdminURL } from "../../hook/useAdminUrl.js";
 
 const Dashboard = () => {
+
+    useEffect(() => {
+        axios.get(`${AdminURL}/dashboard`)
+    },[])
 
     const handleChange = () => {
         console.log('Something')

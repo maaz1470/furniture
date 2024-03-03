@@ -1,17 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { AdminURL } from "../../hook/useAdminUrl";
 import withProgress from "../../HOC/withProgress";
 import axios from "axios";
+import Loading from "../../shared/Loading/Loading";
 
 const Category = () => {
+    const [categories, setCategories] = useState([]);
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
-        // axios.get(`${AdminURL}/category`)
-        axios.get('/api/category/all').then(response => {
-            console.log(response)
-        })
-    },[])
+        axios.get("/api/category/all").then((response) => {
+            console.log(response);
+            setLoading(false);
+            if (response.data.status === 200) {
+                setCategories(response.data.categories);
+            }
+        });
+    }, []);
+    if (loading) {
+        return <Loading />;
+    }
     return (
         <div>
             <Helmet>
@@ -57,30 +66,34 @@ const Category = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td className="text-center">
-                                                Name
-                                            </td>
-                                            <td className="text-center">
-                                                Sonar Bangla
-                                            </td>
-                                            <td className="text-center">
-                                                <div className="flex items-center justify-center gap-4">
-                                                    <button
-                                                        type="button"
-                                                        className="btn btn-sm btn-outline-primary"
-                                                    >
-                                                        Edit
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        className="btn btn-sm btn-outline-danger"
-                                                    >
-                                                        Delete
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        {categories.map((el) => {
+                                            return (
+                                                <tr>
+                                                    <td className="text-center">
+                                                        Name
+                                                    </td>
+                                                    <td className="text-center">
+                                                        Sonar Bangla
+                                                    </td>
+                                                    <td className="text-center">
+                                                        <div className="flex items-center justify-center gap-4">
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-sm btn-outline-primary"
+                                                            >
+                                                                Edit
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-sm btn-outline-danger"
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
                                     </tbody>
                                 </table>
                             </div>
