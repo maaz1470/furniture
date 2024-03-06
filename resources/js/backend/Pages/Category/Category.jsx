@@ -66,14 +66,14 @@ const Category = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {categories.map((el) => {
+                                        {categories.map((el,index) => {
                                             return (
-                                                <tr>
+                                                <tr key={index}>
                                                     <td className="text-center">
-                                                        Name
+                                                        {el.name}
                                                     </td>
                                                     <td className="text-center">
-                                                        Sonar Bangla
+                                                        {el.status == 1 ? 'Published' : 'Unpublished'}
                                                     </td>
                                                     <td className="text-center">
                                                         <div className="flex items-center justify-center gap-4">

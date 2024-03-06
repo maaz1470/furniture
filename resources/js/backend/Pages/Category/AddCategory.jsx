@@ -11,6 +11,7 @@ import { Helmet } from "react-helmet-async";
 const AddCategory = () => {
     const [processImage, setProcessImage] = useState(null);
     const [keywords, setKeywords] = useState([]);
+    const [processing, setProcessing] = useState(false)
 
     const handleChange = (tag) => {
         setKeywords(tag);
@@ -34,6 +35,7 @@ const AddCategory = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setProcessing(true)
         const form = e.target;
         const name = form.name.value;
         const status = form.status.value;
@@ -64,6 +66,9 @@ const AddCategory = () => {
             }else{
                 swal('Error','Something went wrong. Please try again.','error')
             }
+            setProcessing(false)
+        }).catch(error => {
+            setProcessing(false)
         });
     };
 
@@ -142,6 +147,7 @@ const AddCategory = () => {
                                 <button
                                     type="submit"
                                     className="btn btn-primary !mt-6"
+                                    disabled={processing}
                                 >
                                     Submit
                                 </button>
