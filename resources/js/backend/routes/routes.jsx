@@ -14,6 +14,7 @@ import Category from "@/backend/Pages/Category/Category.jsx";
 import NotFound from "@/backend/Pages/errors/not-found.jsx";
 import CategoryLayout from "../Pages/Category/CategoryLayout";
 import AddCategory from "../Pages/Category/AddCategory";
+import EditCategory from "../Pages/Category/EditCategory";
 
 const routes = createBrowserRouter([
     {
@@ -61,6 +62,10 @@ const routes = createBrowserRouter([
                             {
                                 path: 'add',
                                 element: <AddCategory />
+                            },
+                            {
+                                path: 'edit/:id',
+                                element: <EditCategory />
                             }
                         ]
                     }

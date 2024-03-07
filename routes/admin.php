@@ -37,6 +37,7 @@ Route::middleware(['auth:sanctum','AdminGuard'])->group(function(){
         Route::name('category.')->group(function(){
             Route::get('/',[\App\Http\Controllers\CategoryController::class, 'category'])->name('page');
             Route::get('/add',[CategoryController::class, 'add'])->name('add');
+            Route::get('/edit/{id}',[CategoryController::class, 'editCategory'])->name('edit');
         });
     });
 

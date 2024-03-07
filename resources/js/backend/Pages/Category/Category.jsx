@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { AdminURL } from "../../hook/useAdminUrl";
+import { AdminURL, URL } from "../../hook/useAdminUrl";
 import withProgress from "../../HOC/withProgress";
 import axios from "axios";
 import Loading from "../../shared/Loading/Loading";
@@ -61,6 +61,7 @@ const Category = () => {
                                     <thead>
                                         <tr>
                                             <th>Name</th>
+                                            <th>Photo</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -72,17 +73,21 @@ const Category = () => {
                                                     <td className="text-center">
                                                         {el.name}
                                                     </td>
+                                                    <td className="text-center flex justify-center">
+                                                        {el.image ? <img src={`${URL}/storage/category/${el.image}`} width={200} alt="" /> : 'No Image Found'}
+                                                    </td>
                                                     <td className="text-center">
                                                         {el.status == 1 ? 'Published' : 'Unpublished'}
                                                     </td>
                                                     <td className="text-center">
                                                         <div className="flex items-center justify-center gap-4">
-                                                            <button
+                                                            <Link
+                                                                to={`${AdminURL}/category/edit/${el.id}`}
                                                                 type="button"
                                                                 className="btn btn-sm btn-outline-primary"
                                                             >
                                                                 Edit
-                                                            </button>
+                                                            </Link>
                                                             <button
                                                                 type="button"
                                                                 className="btn btn-sm btn-outline-danger"
