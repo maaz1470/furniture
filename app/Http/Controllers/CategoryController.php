@@ -91,6 +91,21 @@ class CategoryController extends Controller
         return view('Backend.Layout');
     }
 
+    public function edit($id){
+        $category = Category::find($id);
+        if($category){
+            return Response()->json([
+                'status'    => 200,
+                'category'  => $category
+            ]);
+        }else{
+            return Response()->json([
+                'status'    => 404,
+                'message'   => 'Category not found'
+            ]);
+        }
+    }
+
     public function updateCategory(Request $request){
         return Response()->json($request->all());
     }
