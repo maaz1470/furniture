@@ -11,7 +11,8 @@ import { Helmet } from "react-helmet-async";
 const AddCategory = () => {
     const [processImage, setProcessImage] = useState(null);
     const [keywords, setKeywords] = useState([]);
-    const [processing, setProcessing] = useState(false)
+    const [processing, setProcessing] = useState(false);
+    const [categories, setCategories] = useState([]);
 
     const handleChange = (tag) => {
         setKeywords(tag);
@@ -19,6 +20,12 @@ const AddCategory = () => {
 
     useEffect(() => {
         axios.get(`${AdminURL}/category/add`);
+        axios.get('/api/category/parent-category').then(response => {
+            console.log(response)
+            if(response.data.status === 200){
+                setCategories(response.data.categories)
+            }
+        })
     }, []);
 
     const handleImageChange = (e) => {
@@ -35,7 +42,7 @@ const AddCategory = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setProcessing(true)
+        setProcessing(true);
         const form = e.target;
         const name = form.name.value;
         const status = form.status.value;
@@ -49,27 +56,35 @@ const AddCategory = () => {
         formData.append("meta_description", meta_description);
         formData.append("image", processImage);
         formData.append("keywords", keywords);
-        axios.post(`/api/category/store`, formData).then((response) => {
-            console.log(response)
-            if (response.data.status === 401) {
-                response.data.errors.forEach((el) =>
-                    toast.error(el, {
-                        position: "top-right",
-                    })
-                );
-            } else if (response.data.status === 200) {
-                swal("Success", response.data.message, "success");
-                const preview_image = document.getElementById("preview_image");
-                preview_image.src = Image;
-                setKeywords([])
-                form.reset();
-            }else{
-                swal('Error','Something went wrong. Please try again.','error')
-            }
-            setProcessing(false)
-        }).catch(error => {
-            setProcessing(false)
-        });
+        axios
+            .post(`/api/category/store`, formData)
+            .then((response) => {
+                console.log(response);
+                if (response.data.status === 401) {
+                    response.data.errors.forEach((el) =>
+                        toast.error(el, {
+                            position: "top-right",
+                        })
+                    );
+                } else if (response.data.status === 200) {
+                    swal("Success", response.data.message, "success");
+                    const preview_image =
+                        document.getElementById("preview_image");
+                    preview_image.src = Image;
+                    setKeywords([]);
+                    form.reset();
+                } else {
+                    swal(
+                        "Error",
+                        "Something went wrong. Please try again.",
+                        "error"
+                    );
+                }
+                setProcessing(false);
+            })
+            .catch((error) => {
+                setProcessing(false);
+            });
     };
 
     return (
@@ -109,6 +124,16 @@ const AddCategory = () => {
                                         placeholder="Category Name"
                                         className="form-input"
                                     />
+                                </div>
+                                <div>
+                                    <select name="sub_category" className="form-input">
+                                        <option value="0">Select Category</option>
+                                        {
+                                            categories.map((el, index) => {
+                                                return <option key={index} value={el.id}>{el.name}</option>
+                                            })
+                                        }
+                                    </select>
                                 </div>
                                 <div>
                                     <input

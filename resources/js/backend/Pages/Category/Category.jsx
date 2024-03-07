@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { AdminURL, URL } from "../../hook/useAdminUrl";
+import { AdminURL, AppURL } from "../../hook/useAdminUrl";
 import withProgress from "../../HOC/withProgress";
 import axios from "axios";
 import Loading from "../../shared/Loading/Loading";
@@ -74,7 +74,7 @@ const Category = () => {
                                                         {el.name}
                                                     </td>
                                                     <td className="text-center flex justify-center">
-                                                        {el.image ? <img src={`${URL}/storage/category/${el.image}`} width={200} alt="" /> : 'No Image Found'}
+                                                        {el.image ? <img src={`${AppURL}/storage/category/${el.image}`} width={200} alt="" /> : 'No Image Found'}
                                                     </td>
                                                     <td className="text-center">
                                                         {el.status == 1 ? 'Published' : 'Unpublished'}

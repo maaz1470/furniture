@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Image from "./../../assets/images/product/product-1.jpg";
 import axios from "axios";
 import withProgress from "../../HOC/withProgress";
-import { AdminURL, URL } from "../../hook/useAdminUrl";
+import { AdminURL, AppURL } from "../../hook/useAdminUrl";
 import Seo from "../../Component/Seo/Seo";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -13,8 +13,8 @@ import Loading from "../../shared/Loading/Loading";
 const EditCategory = () => {
     const [processImage, setProcessImage] = useState(null);
     const [keywords, setKeywords] = useState([]);
-    const [processing, setProcessing] = useState(false)
-    const [loading, setLoading] = useState(true)
+    const [processing, setProcessing] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [category, setCategory] = useState({});
 
     const handleChange = (tag) => {
@@ -23,21 +23,24 @@ const EditCategory = () => {
 
     const navigate = useNavigate();
 
-    const {id} = useParams();
+    const { id } = useParams();
 
     useEffect(() => {
         axios.get(`${AdminURL}/category/edit/${id}`);
-        axios.get(`/api/category/edit/${id}`).then(response => {
-            if(response.data.status === 200){
-                setCategory(response.data.category)
-            }else if(response.data.status === 404){
-                swal('Error',response.data.message,'error')
-                navigate(`${AdminURL}/category`)
-            }
-            setLoading(false)
-        }).catch(error => {
-            setLoading(false)
-        })
+        axios
+            .get(`/api/category/edit/${id}`)
+            .then((response) => {
+                if (response.data.status === 200) {
+                    setCategory(response.data.category);
+                } else if (response.data.status === 404) {
+                    swal("Error", response.data.message, "error");
+                    navigate(`${AdminURL}/category`);
+                }
+                setLoading(false);
+            })
+            .catch((error) => {
+                setLoading(false);
+            });
     }, []);
 
     const handleImageChange = (e) => {
@@ -54,7 +57,7 @@ const EditCategory = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setProcessing(true)
+        setProcessing(true);
         const form = e.target;
         const name = form.name.value;
         const status = form.status.value;
@@ -68,31 +71,39 @@ const EditCategory = () => {
         formData.append("meta_description", meta_description);
         formData.append("image", processImage);
         formData.append("keywords", keywords);
-        axios.post(`/api/category/store`, formData).then((response) => {
-            console.log(response)
-            if (response.data.status === 401) {
-                response.data.errors.forEach((el) =>
-                    toast.error(el, {
-                        position: "top-right",
-                    })
-                );
-            } else if (response.data.status === 200) {
-                swal("Success", response.data.message, "success");
-                const preview_image = document.getElementById("preview_image");
-                preview_image.src = Image;
-                setKeywords([]);
-                form.reset();
-            }else{
-                swal('Error','Something went wrong. Please try again.','error')
-            }
-            setProcessing(false)
-        }).catch(error => {
-            setProcessing(false)
-        });
+        axios
+            .post(`/api/category/store`, formData)
+            .then((response) => {
+                console.log(response);
+                if (response.data.status === 401) {
+                    response.data.errors.forEach((el) =>
+                        toast.error(el, {
+                            position: "top-right",
+                        })
+                    );
+                } else if (response.data.status === 200) {
+                    swal("Success", response.data.message, "success");
+                    const preview_image =
+                        document.getElementById("preview_image");
+                    preview_image.src = Image;
+                    setKeywords([]);
+                    form.reset();
+                } else {
+                    swal(
+                        "Error",
+                        "Something went wrong. Please try again.",
+                        "error"
+                    );
+                }
+                setProcessing(false);
+            })
+            .catch((error) => {
+                setProcessing(false);
+            });
     };
 
-    if(loading){
-        return <Loading />
+    if (loading) {
+        return <Loading />;
     }
 
     return (
@@ -147,10 +158,21 @@ const EditCategory = () => {
                                         <img
                                             id="preview_image"
                                             width="300"
-                                            src={`${URL}/storage/category/${category.image}`}
+                                            src={
+                                                category.image
+                                                    ? `${AppURL}/storage/category/${category.image}`
+                                                    : Image
+                                            }
                                             alt=""
                                         />
                                     </div>
+                                    {category.image && (
+                                        <div className="mt-2 ml-2">
+                                            <button className="btn btn-danger">
+                                                Remove
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                                 <div>
                                     <select
