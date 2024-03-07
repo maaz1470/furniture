@@ -106,6 +106,14 @@ class CategoryController extends Controller
         }
     }
 
+    public function parentCategory(){
+        $categories = Category::all()->where('status',1);
+        return Response()->json([
+            'status'        => 200,
+            'categories'    => $categories
+        ]);
+    }
+
     public function updateCategory(Request $request){
         return Response()->json($request->all());
     }
