@@ -48,10 +48,12 @@ const AddCategory = () => {
         const status = form.status.value;
         const meta_title = form.meta_title.value;
         const meta_description = form.meta_description.value;
+        const sub_category = form.sub_category.value;
 
         const formData = new FormData();
         formData.append("name", name);
         formData.append("status", status);
+        formData.append("parent_category", sub_category);
         formData.append("meta_title", meta_title);
         formData.append("meta_description", meta_description);
         formData.append("image", processImage);
@@ -59,7 +61,6 @@ const AddCategory = () => {
         axios
             .post(`/api/category/store`, formData)
             .then((response) => {
-                console.log(response);
                 if (response.data.status === 401) {
                     response.data.errors.forEach((el) =>
                         toast.error(el, {

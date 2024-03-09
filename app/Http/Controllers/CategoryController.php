@@ -50,6 +50,7 @@ class CategoryController extends Controller
         $category = new Category();
         $category->name = $request->name;
         $category->slug = $this->createCategoryURL($request);
+        $category->parent_id = $request->parent_category;
         $category->status = $request->status;
         $category->keywords = convert_array_to_string($request);
         $category->meta_title = $request->meta_title;
