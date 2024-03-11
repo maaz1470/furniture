@@ -45,7 +45,7 @@ Route::middleware(['auth:sanctum','AdminGuard'])->group(function(){
     Route::prefix('category')->group(function(){
         Route::name('category.')->group(function(){
             Route::post('/store',[CategoryController::class, 'store'])->name('store');
-            Route::get('/all',[CategoryController::class, 'all'])->name('all');
+            Route::get('/all',[CategoryController::class, 'parentCategories'])->name('parentCategories');
             Route::get('/edit/{id}',[CategoryController::class, 'edit'])->name('editCategory');
             Route::get('/parent-category',[CategoryController::class, 'parentCategory'])->name('parent-category');
         });

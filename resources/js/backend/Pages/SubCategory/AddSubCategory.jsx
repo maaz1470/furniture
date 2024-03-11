@@ -2,45 +2,30 @@ import React, { useEffect, useState } from "react";
 import Image from "./../../assets/images/product/product-1.jpg";
 import axios from "axios";
 import withProgress from "../../HOC/withProgress";
-import { AdminURL, AppURL } from "../../hook/useAdminUrl";
+import { AdminURL } from "../../hook/useAdminUrl";
 import Seo from "../../Component/Seo/Seo";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import swal from "sweetalert";
 import { Helmet } from "react-helmet-async";
-import { useNavigate, useParams } from "react-router-dom";
-import Loading from "../../shared/Loading/Loading";
-const EditCategory = () => {
+const AddSubCategory = () => {
     const [processImage, setProcessImage] = useState(null);
     const [keywords, setKeywords] = useState([]);
     const [processing, setProcessing] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const [category, setCategory] = useState({});
+    const [categories, setCategories] = useState([]);
 
     const handleChange = (tag) => {
         setKeywords(tag);
     };
 
-    const navigate = useNavigate();
-
-    const { id } = useParams();
-
     useEffect(() => {
-        axios.get(`${AdminURL}/category/edit/${id}`);
-        axios
-            .get(`/api/category/edit/${id}`)
-            .then((response) => {
-                if (response.data.status === 200) {
-                    setCategory(response.data.category);
-                } else if (response.data.status === 404) {
-                    swal("Error", response.data.message, "error");
-                    navigate(`${AdminURL}/category`);
-                }
-                setLoading(false);
-            })
-            .catch((error) => {
-                setLoading(false);
-            });
+        axios.get(`${AdminURL}/category/add`);
+        axios.get('/api/category/parent-category').then(response => {
+            console.log(response)
+            if(response.data.status === 200){
+                setCategories(response.data.categories)
+            }
+        })
     }, []);
 
     const handleImageChange = (e) => {
@@ -63,10 +48,12 @@ const EditCategory = () => {
         const status = form.status.value;
         const meta_title = form.meta_title.value;
         const meta_description = form.meta_description.value;
+        const sub_category = form.sub_category.value;
 
         const formData = new FormData();
         formData.append("name", name);
         formData.append("status", status);
+        formData.append("parent_category", sub_category);
         formData.append("meta_title", meta_title);
         formData.append("meta_description", meta_description);
         formData.append("image", processImage);
@@ -74,7 +61,6 @@ const EditCategory = () => {
         axios
             .post(`/api/category/store`, formData)
             .then((response) => {
-                console.log(response);
                 if (response.data.status === 401) {
                     response.data.errors.forEach((el) =>
                         toast.error(el, {
@@ -88,7 +74,6 @@ const EditCategory = () => {
                     preview_image.src = Image;
                     setKeywords([]);
                     form.reset();
-                    axios.get('')
                 } else {
                     swal(
                         "Error",
@@ -103,15 +88,11 @@ const EditCategory = () => {
             });
     };
 
-    if (loading) {
-        return <Loading />;
-    }
-
     return (
         <div>
             <ToastContainer />
             <Helmet>
-                <title>Edit Category</title>
+                <title>Add Category</title>
             </Helmet>
             <div>
                 <ul className="flex space-x-2 rtl:space-x-reverse">
@@ -128,7 +109,7 @@ const EditCategory = () => {
                     <div className="panel">
                         <div className="mb-5 flex items-center justify-between">
                             <h5 className="text-lg font-semibold dark:text-white-light">
-                                Edit Category
+                                Add Category
                             </h5>
                         </div>
                         <div className="mb-5">
@@ -141,10 +122,19 @@ const EditCategory = () => {
                                     <input
                                         name="name"
                                         type="text"
-                                        defaultValue={category.name}
                                         placeholder="Category Name"
                                         className="form-input"
                                     />
+                                </div>
+                                <div>
+                                    <select name="sub_category" className="form-input">
+                                        <option value="0">Select Category</option>
+                                        {
+                                            categories.map((el, index) => {
+                                                return <option key={index} value={el.id}>{el.name}</option>
+                                            })
+                                        }
+                                    </select>
                                 </div>
                                 <div>
                                     <input
@@ -159,21 +149,10 @@ const EditCategory = () => {
                                         <img
                                             id="preview_image"
                                             width="300"
-                                            src={
-                                                category.image
-                                                    ? `${AppURL}/storage/category/${category.image}`
-                                                    : Image
-                                            }
+                                            src={Image}
                                             alt=""
                                         />
                                     </div>
-                                    {category.image && (
-                                        <div className="mt-2 ml-2">
-                                            <button className="btn btn-danger">
-                                                Remove
-                                            </button>
-                                        </div>
-                                    )}
                                 </div>
                                 <div>
                                     <select
@@ -207,4 +186,4 @@ const EditCategory = () => {
     );
 };
 
-export default withProgress(EditCategory);
+export default withProgress(AddSubCategory);

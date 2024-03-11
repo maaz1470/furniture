@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
@@ -121,11 +122,22 @@ class CategoryController extends Controller
 
 
     
-    public function all(){
-        $categories = Category::all();
+    public function parentCategories(){
+        $categories = DB::table('categories')->where('parent_id',0)->get();
         return Response()->json([
             'status'        => 200,
             'categories'    => $categories
         ]);
+    }
+
+
+    // Sub Category Function Start Here
+
+    public function subCategoryAll(){
+        return view('Backend.Layout');
+    }
+
+    public function subCategoryAdd(){
+        return view('Backend.Layout');
     }
 }

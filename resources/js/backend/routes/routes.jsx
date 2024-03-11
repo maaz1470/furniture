@@ -15,6 +15,7 @@ import NotFound from "@/backend/Pages/errors/not-found.jsx";
 import CategoryLayout from "../Pages/Category/CategoryLayout";
 import AddCategory from "../Pages/Category/AddCategory";
 import EditCategory from "../Pages/Category/EditCategory";
+import SubCategory from "../Pages/SubCategory/SubCategory";
 
 const routes = createBrowserRouter([
     {
@@ -66,6 +67,19 @@ const routes = createBrowserRouter([
                             {
                                 path: 'edit/:id',
                                 element: <EditCategory />
+                            }
+                        ],
+                    },
+                    {
+                        path: 'sub-category',
+                        element: <CategoryLayout />,
+                        children: [
+                            {
+                                path: '',
+                                element: <SubCategory />
+                            },
+                            {
+                                path: 'add',
                             }
                         ]
                     }
