@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {Link, Outlet, json, useLocation, useNavigate} from "react-router-dom";
+import { Link, Outlet, json, useLocation, useNavigate } from "react-router-dom";
 import Logo from "./../assets/images/logo.svg";
 import UserProfile from "./../assets/images/user-profile.jpeg";
 import { AdminURL } from "./../hook/useAdminUrl";
@@ -20,42 +20,42 @@ const DashboardLayout = () => {
 
     const handleLogout = () => {
         swal({
-            title: 'Are you sure want to Logout?',
-            icon: 'warning',
+            title: "Are you sure want to Logout?",
+            icon: "warning",
             buttons: true,
-            dangerMode: true
+            dangerMode: true,
         }).then((logout) => {
-            if(logout){
-                swal('Success','Logout Successfully','success')
-                axios.get('/api/admin/logout').then(response => {
-                    if(response.data.status === 200){
-                        localStorage.removeItem('rh_token')
-                        window.location.reload()
+            if (logout) {
+                swal("Success", "Logout Successfully", "success");
+                axios.get("/api/admin/logout").then((response) => {
+                    if (response.data.status === 200) {
+                        localStorage.removeItem("rh_token");
+                        window.location.reload();
                     }
-                })
+                });
             }
-        })
-    }
+        });
+    };
 
     useEffect(() => {
-        if(location.pathname == `${AdminURL}/dashboard`){
+        if (location.pathname == `${AdminURL}/dashboard`) {
             setExpandMenu({
-                dashboard: true
+                dashboard: true,
             });
-        }else if(location.pathname == `${AdminURL}/category`){
+        } else if (location.pathname == `${AdminURL}/category`) {
             setExpandMenu({
-                category: true
-            })
-        }else if(location.pathname == `${AdminURL}/sub-category`){
+                category: true,
+            });
+        } else if (location.pathname == `${AdminURL}/sub-category`) {
             setExpandMenu({
-                category: true
-            })
-        }else if(location.pathname == `${AdminURL}/sub-category/add`){
+                category: true,
+            });
+        } else if (location.pathname == `${AdminURL}/sub-category/add`) {
             setExpandMenu({
-                category: true
-            })
+                category: true,
+            });
         }
-    },[location.pathname])
+    }, [location.pathname]);
 
     const handleExpandMenu = (e, menu) => {
         setExpandMenu({
@@ -186,7 +186,7 @@ const DashboardLayout = () => {
                                     </a>
                                 )}
                             </div>
-                            <ul className="perfect-scrollbar relative h-[calc(100vh-80px)] space-y-0.5 overflow-y-auto overflow-x-hidden p-4 py-0 font-semibold ps ps--active-y ">
+                            <ul className="perfect-scrollbar   relative h-[calc(100vh-80px)] space-y-0.5  overflow-y-scroll scrollbar-w-2 scrollbar-track-gray-200 scrollbar-thumb-gray-500 scrollbar-thumb-rounded-lg    p-4 py-0 font-semibold ps ps--active-y ">
                                 <li className="menu nav-item">
                                     <Link
                                         to={`${AdminURL}/dashboard`}
@@ -242,11 +242,16 @@ const DashboardLayout = () => {
                                     <ul>
                                         <li className="nav-item">
                                             <button
-                                                className={`group ${expandMenu.category && 'active'}`}
-                                                onClick={(e) => handleExpandMenu(
-                                                    e,
-                                                    !expandMenu.category
-                                                )}
+                                                className={`group ${
+                                                    expandMenu.category &&
+                                                    "active"
+                                                }`}
+                                                onClick={(e) =>
+                                                    handleExpandMenu(
+                                                        e,
+                                                        !expandMenu.category
+                                                    )
+                                                }
                                                 name="category"
                                             >
                                                 <div className="flex items-center">
@@ -273,8 +278,7 @@ const DashboardLayout = () => {
                                                             fill="currentColor"
                                                         />
                                                     </svg>
-                                                    <span
-                                                        className="text-black pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">
+                                                    <span className="text-black pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">
                                                         Category
                                                     </span>
                                                 </div>
@@ -307,12 +311,16 @@ const DashboardLayout = () => {
                                                     className="sub-menu text-gray-500 transition-all"
                                                 >
                                                     <li>
-                                                        <Link to={`${AdminURL}/category`}>
+                                                        <Link
+                                                            to={`${AdminURL}/category`}
+                                                        >
                                                             Categories
                                                         </Link>
                                                     </li>
                                                     <li>
-                                                        <Link to={`${AdminURL}/sub-category`}>
+                                                        <Link
+                                                            to={`${AdminURL}/sub-category`}
+                                                        >
                                                             Sub Category
                                                         </Link>
                                                     </li>
@@ -329,7 +337,7 @@ const DashboardLayout = () => {
                                                 </ul>
                                             )}
                                         </li>
-                                        
+
                                         <li className="menu nav-item">
                                             <Link
                                                 to={`${AdminURL}/dashboard`}
