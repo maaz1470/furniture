@@ -109,7 +109,7 @@ class CategoryController extends Controller
     }
 
     public function parentCategory(){
-        $categories = Category::all()->where('status',1);
+        $categories = Category::where('status',1)->orWhere('parent_id',0)->get();
         return Response()->json([
             'status'        => 200,
             'categories'    => $categories

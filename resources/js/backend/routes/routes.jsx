@@ -16,6 +16,7 @@ import CategoryLayout from "../Pages/Category/CategoryLayout";
 import AddCategory from "../Pages/Category/AddCategory";
 import EditCategory from "../Pages/Category/EditCategory";
 import SubCategory from "../Pages/SubCategory/SubCategory";
+import AddSubCategory from "../Pages/SubCategory/AddSubCategory";
 
 const routes = createBrowserRouter([
     {
@@ -80,6 +81,7 @@ const routes = createBrowserRouter([
                             },
                             {
                                 path: 'add',
+                                element: <AddSubCategory />
                             }
                         ]
                     }
