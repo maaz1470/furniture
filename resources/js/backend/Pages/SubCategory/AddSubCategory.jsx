@@ -92,24 +92,24 @@ const AddSubCategory = () => {
         <div>
             <ToastContainer />
             <Helmet>
-                <title>Add Category</title>
+                <title>Add Sub Category</title>
             </Helmet>
             <div>
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
                         <a href="#" className="text-primary hover:underline">
-                            Forms
+                            Sub Category
                         </a>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
-                        <span>Layouts</span>
+                        <span>Add</span>
                     </li>
                 </ul>
                 <div className="pt-5">
                     <div className="panel">
                         <div className="mb-5 flex items-center justify-between">
                             <h5 className="text-lg font-semibold dark:text-white-light">
-                                Add Category
+                                Add Sub Category
                             </h5>
                         </div>
                         <div className="mb-5">

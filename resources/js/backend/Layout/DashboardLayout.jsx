@@ -50,6 +50,10 @@ const DashboardLayout = () => {
             setExpandMenu({
                 category: true
             })
+        }else if(location.pathname == `${AdminURL}/sub-category/add`){
+            setExpandMenu({
+                category: true
+            })
         }
     },[location.pathname])
 
