@@ -41,6 +41,13 @@ Route::middleware(['auth:sanctum','AdminGuard'])->group(function(){
         });
     });
 
+    Route::prefix('sub-category')->group(function(){
+        Route::name('sub-category.')->group(function(){
+            Route::get('/',[CategoryController::class, 'subCategoryAll'])->name('all');
+            Route::get('/add',[CategoryController::class, 'subCategoryAdd'])->name('subCategoryAdd');
+        });
+    });
+
     Route::get('hello',function(){
         return view('Backend.Layout');
     });

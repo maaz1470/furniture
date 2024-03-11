@@ -6,7 +6,7 @@ import withProgress from "../../HOC/withProgress";
 import axios from "axios";
 import Loading from "../../shared/Loading/Loading";
 
-const Category = () => {
+const SubCategory = () => {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
@@ -30,7 +30,7 @@ const Category = () => {
                 <ul className="flex space-x-2 rtl:space-x-reverse mb-5">
                     <li>
                         <a href="#" className="text-primary hover:underline">
-                            Categories
+                            Sub Categories
                         </a>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
@@ -45,7 +45,7 @@ const Category = () => {
                             </h5>
                             <Link
                                 className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600"
-                                to={`${AdminURL}/category/add`}
+                                to={`${AdminURL}/sub-category/add`}
                             >
                                 <button
                                     type="button"
@@ -110,4 +110,4 @@ const Category = () => {
     );
 };
 
-export default withProgress(Category);
+export default withProgress(SubCategory);
