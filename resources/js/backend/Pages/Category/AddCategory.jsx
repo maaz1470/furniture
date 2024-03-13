@@ -12,7 +12,6 @@ const AddCategory = () => {
     const [processImage, setProcessImage] = useState(null);
     const [keywords, setKeywords] = useState([]);
     const [processing, setProcessing] = useState(false);
-    const [categories, setCategories] = useState([]);
 
     const handleChange = (tag) => {
         setKeywords(tag);
@@ -20,12 +19,6 @@ const AddCategory = () => {
 
     useEffect(() => {
         axios.get(`${AdminURL}/category/add`);
-        axios.get('/api/category/parent-category').then(response => {
-            console.log(response)
-            if(response.data.status === 200){
-                setCategories(response.data.categories)
-            }
-        })
     }, []);
 
     const handleImageChange = (e) => {
@@ -125,16 +118,6 @@ const AddCategory = () => {
                                         placeholder="Category Name"
                                         className="form-input"
                                     />
-                                </div>
-                                <div>
-                                    <select name="sub_category" className="form-input">
-                                        <option value="0">Select Category</option>
-                                        {
-                                            categories.map((el, index) => {
-                                                return <option key={index} value={el.id}>{el.name}</option>
-                                            })
-                                        }
-                                    </select>
                                 </div>
                                 <div>
                                     <input
