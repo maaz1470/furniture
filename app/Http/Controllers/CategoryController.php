@@ -51,7 +51,6 @@ class CategoryController extends Controller
         $category = new Category();
         $category->name = $request->name;
         $category->slug = $this->createCategoryURL($request);
-        $category->parent_id = $request->parent_category;
         $category->status = $request->status;
         $category->keywords = convert_array_to_string($request);
         $category->meta_title = $request->meta_title;
@@ -109,7 +108,7 @@ class CategoryController extends Controller
     }
 
     public function parentCategory(){
-        $categories = Category::where('status',1)->orWhere('parent_id',0)->get();
+        $categories = Category::where('status',1)->orWhere('parent_id',null)->get();
         return Response()->json([
             'status'        => 200,
             'categories'    => $categories
@@ -117,13 +116,16 @@ class CategoryController extends Controller
     }
 
     public function updateCategory(Request $request){
-        return Response()->json($request->all());
+        $validator = Validator::make($request->all(),[
+            'name'      => 'required|string|max:255',
+            ''
+        ]);
     }
 
 
     
     public function parentCategories(){
-        $categories = DB::table('categories')->where('parent_id',0)->get();
+        $categories = DB::table('categories')->where('parent_id',null)->get();
         return Response()->json([
             'status'        => 200,
             'categories'    => $categories

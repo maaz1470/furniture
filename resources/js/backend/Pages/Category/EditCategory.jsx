@@ -32,6 +32,9 @@ const EditCategory = () => {
             .then((response) => {
                 if (response.data.status === 200) {
                     setCategory(response.data.category);
+                    if(response.data.category.keywords){
+                        setKeywords(response.data.category.keywords.split(','))
+                    }
                 } else if (response.data.status === 404) {
                     swal("Error", response.data.message, "error");
                     navigate(`${AdminURL}/category`);
@@ -72,7 +75,7 @@ const EditCategory = () => {
         formData.append("image", processImage);
         formData.append("keywords", keywords);
         axios
-            .post(`/api/category/store`, formData)
+            .post(`/api/category/updateCategory`, formData)
             .then((response) => {
                 console.log(response);
                 if (response.data.status === 401) {
@@ -106,6 +109,7 @@ const EditCategory = () => {
     if (loading) {
         return <Loading />;
     }
+
 
     return (
         <div>
