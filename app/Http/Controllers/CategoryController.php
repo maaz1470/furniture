@@ -118,8 +118,66 @@ class CategoryController extends Controller
     public function updateCategory(Request $request){
         $validator = Validator::make($request->all(),[
             'name'      => 'required|string|max:255',
-            ''
+            'id'        => 'required',
+            'slug'      => 'required|string|max:255'
         ]);
+        
+        if($validator->fails()){
+            return Response()->json([
+                'status'    => 401,
+                'errors'    => $validator->errors()->all()
+            ]);
+        }
+        $category = Category::where('id',$request->id)->get()->first();
+        $category->name = $request->name;
+        if($category->slug == $request->slug){
+            $category->slug = $request->slug;
+        }else{
+            $slugValidator = Validator::make($request->all(),[
+                'slug'  => 'unique:categories.slug'
+            ]);
+            if($slugValidator->fails()){
+                return Response()->json([
+                    'status'    => 401,
+                    'errors'    => $slugValidator->errors()->all()
+                ]);
+            }
+            $slug = $this->createCategoryURL($request);
+            $category->slug = $slug;
+        }
+        if($request->hasFile('image')){
+            $imageValidator = Validator::make($request->all(),[
+                'image' => 'mimes:jpg,png,gif,svg,jpeg'
+            ]);
+            if($imageValidator->fails()){
+                return Response()->json([
+                    'status'    => 401,
+                    'errors'    => $imageValidator->errors()->all()
+                ]);
+            }
+            $image = $request->file('image');
+            $name = $image->getClientOriginalName() . time() . '_rh' . '.jpg';
+            $image_path = storage_path('app/public/category/' . $name);
+            $manager = new ImageManager(new Driver());
+            $manager->read($image)->save($image_path,70);
+            $category->image = $name;
+        }
+        $category->status = $request->status;
+        $category->meta_title = $request->meta_title;
+        $category->meta_description = $request->meta_description;
+        $category->keywords = convert_array_to_string($request);
+        if($category){
+            return Response()->json([
+                'status'    => 200,
+                'message'   => 'Category update successfully'
+            ]);
+        }else{
+            return Response()->json([
+                'status'    => 402,
+                'message'   => 'Something went wrong. Please try again.'
+            ]);
+        }
+        
     }
 
 

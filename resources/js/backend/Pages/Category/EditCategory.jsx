@@ -32,8 +32,8 @@ const EditCategory = () => {
             .then((response) => {
                 if (response.data.status === 200) {
                     setCategory(response.data.category);
-                    if(response.data.category.keywords){
-                        setKeywords(response.data.category.keywords.split(','))
+                    if (response.data.category.keywords) {
+                        setKeywords(response.data.category.keywords.split(","));
                     }
                 } else if (response.data.status === 404) {
                     swal("Error", response.data.message, "error");
@@ -66,14 +66,17 @@ const EditCategory = () => {
         const status = form.status.value;
         const meta_title = form.meta_title.value;
         const meta_description = form.meta_description.value;
+        const slug = form.slug.value;
 
         const formData = new FormData();
         formData.append("name", name);
+        formData.append("slug", slug);
         formData.append("status", status);
         formData.append("meta_title", meta_title);
         formData.append("meta_description", meta_description);
         formData.append("image", processImage);
         formData.append("keywords", keywords);
+        formData.append('id',id)
         axios
             .post(`/api/category/updateCategory`, formData)
             .then((response) => {
@@ -86,12 +89,9 @@ const EditCategory = () => {
                     );
                 } else if (response.data.status === 200) {
                     swal("Success", response.data.message, "success");
-                    const preview_image =
-                        document.getElementById("preview_image");
-                    preview_image.src = Image;
                     setKeywords([]);
                     form.reset();
-                    axios.get('')
+                    axios.get("");
                 } else {
                     swal(
                         "Error",
@@ -109,7 +109,6 @@ const EditCategory = () => {
     if (loading) {
         return <Loading />;
     }
-
 
     return (
         <div>
@@ -146,6 +145,15 @@ const EditCategory = () => {
                                         name="name"
                                         type="text"
                                         defaultValue={category.name}
+                                        placeholder="Category Name"
+                                        className="form-input"
+                                    />
+                                </div>
+                                <div>
+                                    <input
+                                        name="slug"
+                                        type="text"
+                                        defaultValue={category.slug}
                                         placeholder="Category Name"
                                         className="form-input"
                                     />
@@ -193,7 +201,11 @@ const EditCategory = () => {
                                 <br />
                                 <br />
 
-                                <Seo value={keywords} change={handleChange} />
+                                <Seo
+                                    value={keywords}
+                                    change={handleChange}
+                                    data={category}
+                                />
 
                                 <button
                                     type="submit"
