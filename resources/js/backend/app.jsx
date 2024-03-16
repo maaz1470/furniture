@@ -10,7 +10,8 @@ import AuthLayout from "./Layout/AuthLayout";
 import Register from "./Pages/Auth/Register";
 import routes from "./routes/routes";
 import AuthProvider from "./Provider/AuthProvider";
-import './assets/css/style.css'
+import "./assets/css/style.css";
+import "./assets/css/app.css";
 axios.defaults.baseURL = "http://127.0.0.1:8000";
 
 axios.interceptors.request.use(function (config) {

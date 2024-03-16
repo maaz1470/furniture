@@ -1,0 +1,14 @@
+/* ============================main content scroll bar design====================================== */
+.scrollbar-w-2::-webkit-scrollbar {
+    width: 5px;
+}
+.scrollbar-w-2::-webkit-scrollbar-track {
+    background: transparent;
+}
+.scrollbar-w-2::-webkit-scrollbar-thumb {
+    background-color: #5a66f1;
+    border-radius: 3px;
+}
+.scrollbar-w-2::-webkit-scrollbar-thumb:hover {
+    background-color: #5a66f1;
+}
