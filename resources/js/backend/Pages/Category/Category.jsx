@@ -20,13 +20,15 @@ const Category = () => {
         });
     }, []);
 
-    const handleDelete = () => {
+    const handleDelete = (id) => {
         swal({
             title: 'Delete',
             text: 'Are you sure want to delete?',
             icon: 'warning',
         }).then(willDelete => {
-            console.log(willDelete)
+            if(willDelete){
+                axios.delete(`/api/category/deleteCategory/${id}`)
+            }
         })
     }
     if (loading) {
@@ -117,7 +119,7 @@ const Category = () => {
                                                             <button
                                                                 type="button"
                                                                 className="btn btn-sm btn-outline-danger"
-                                                                onClick={handleDelete}
+                                                                onClick={() => handleDelete(el.id)}
                                                             >
                                                                 Delete
                                                             </button>

@@ -49,6 +49,7 @@ Route::middleware(['auth:sanctum','AdminGuard'])->group(function(){
             Route::get('/edit/{id}',[CategoryController::class, 'edit'])->name('editCategory');
             Route::get('/parent-category',[CategoryController::class, 'parentCategory'])->name('parent-category');
             Route::post('/updateCategory',[CategoryController::class, 'updateCategory'])->name('updateCategory');
+            Route::delete('/deleteCategory/{id}',[CategoryController::class, 'deleteCategory'])->name('deleteCategory');
         });
     });
 });
