@@ -19,7 +19,7 @@ const Seo = ({value, change, ...rest}) => {
                     name="meta_title"
                     className="form-input"
                     placeholder="Meta Title"
-                    defaultValue={rest?.data.meta_title}
+                    defaultValue={rest?.data?.meta_title}
                 />
             </div>
             <div className="mb-3">
@@ -29,7 +29,7 @@ const Seo = ({value, change, ...rest}) => {
                     placeholder="Meta Description"
                     cols="30"
                     rows="10"
-                    defaultValue={rest?.data.meta_description}
+                    defaultValue={rest?.data?.meta_description}
                 ></textarea>
             </div>
         </div>

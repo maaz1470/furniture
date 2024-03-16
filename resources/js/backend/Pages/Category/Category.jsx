@@ -5,6 +5,7 @@ import { AdminURL, AppURL } from "../../hook/useAdminUrl";
 import withProgress from "../../HOC/withProgress";
 import axios from "axios";
 import Loading from "../../shared/Loading/Loading";
+import swal from "sweetalert";
 
 const Category = () => {
     const [categories, setCategories] = useState([]);
@@ -18,6 +19,16 @@ const Category = () => {
             }
         });
     }, []);
+
+    const handleDelete = () => {
+        swal({
+            title: 'Delete',
+            text: 'Are you sure want to delete?',
+            icon: 'warning',
+        }).then(willDelete => {
+            console.log(willDelete)
+        })
+    }
     if (loading) {
         return <Loading />;
     }
@@ -60,6 +71,7 @@ const Category = () => {
                                 <table>
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th>Name</th>
                                             <th>Photo</th>
                                             <th>Status</th>
@@ -67,17 +79,31 @@ const Category = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {categories.map((el,index) => {
+                                        {categories.map((el, index) => {
+                                            let count = index;
                                             return (
                                                 <tr key={index}>
+                                                    <td className="text-center">
+                                                        {++count}
+                                                    </td>
                                                     <td className="text-center">
                                                         {el.name}
                                                     </td>
                                                     <td className="text-center flex justify-center">
-                                                        {el.image ? <img src={`${AppURL}/storage/category/${el.image}`} width={200} alt="" /> : 'No Image Found'}
+                                                        {el.image ? (
+                                                            <img
+                                                                src={`${AppURL}/storage/category/${el.image}`}
+                                                                width={200}
+                                                                alt=""
+                                                            />
+                                                        ) : (
+                                                            "No Image Found"
+                                                        )}
                                                     </td>
                                                     <td className="text-center">
-                                                        {el.status == 1 ? 'Published' : 'Unpublished'}
+                                                        {el.status == 1
+                                                            ? "Published"
+                                                            : "Unpublished"}
                                                     </td>
                                                     <td className="text-center">
                                                         <div className="flex items-center justify-center gap-4">
@@ -91,6 +117,7 @@ const Category = () => {
                                                             <button
                                                                 type="button"
                                                                 className="btn btn-sm btn-outline-danger"
+                                                                onClick={handleDelete}
                                                             >
                                                                 Delete
                                                             </button>

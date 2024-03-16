@@ -89,9 +89,6 @@ const EditCategory = () => {
                     );
                 } else if (response.data.status === 200) {
                     swal("Success", response.data.message, "success");
-                    setKeywords([]);
-                    form.reset();
-                    axios.get("");
                 } else {
                     swal(
                         "Error",
@@ -179,13 +176,6 @@ const EditCategory = () => {
                                             alt=""
                                         />
                                     </div>
-                                    {category.image && (
-                                        <div className="mt-2 ml-2">
-                                            <button className="btn btn-danger">
-                                                Remove
-                                            </button>
-                                        </div>
-                                    )}
                                 </div>
                                 <div>
                                     <select

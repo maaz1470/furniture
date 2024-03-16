@@ -166,7 +166,7 @@ class CategoryController extends Controller
         $category->meta_title = $request->meta_title;
         $category->meta_description = $request->meta_description;
         $category->keywords = convert_array_to_string($request);
-        if($category){
+        if($category->save()){
             return Response()->json([
                 'status'    => 200,
                 'message'   => 'Category update successfully'
@@ -183,7 +183,7 @@ class CategoryController extends Controller
 
     
     public function parentCategories(){
-        $categories = DB::table('categories')->where('parent_id',null)->get();
+        $categories = DB::table('categories')->where('parent_id',null)->orderByDesc('id')->get();
         return Response()->json([
             'status'        => 200,
             'categories'    => $categories
