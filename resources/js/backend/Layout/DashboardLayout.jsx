@@ -131,7 +131,7 @@ const DashboardLayout = () => {
             </div>
 
             <div className="main-container min-h-screen text-black dark:text-white-dark navbar-sticky">
-                <div className="dark text-white-dark">
+                <div className="dark text-white-dark sticky z-[70]">
                     <nav
                         id="navigation"
                         className="sidebar fixed top-0 bottom-0 z-50 h-full min-h-screen w-[260px] shadow-[5px_0_25px_0_rgba(94,92,154,0.1)] transition-all duration-300"

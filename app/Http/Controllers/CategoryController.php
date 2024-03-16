@@ -14,40 +14,44 @@ use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-    public function category(){
+    public function category()
+    {
         return view('Backend.Layout');
     }
 
-    public function add(){
+    public function add()
+    {
         return view('Backend.Layout');
     }
 
-    protected function createCategoryURL($request){
+    protected function createCategoryURL($request)
+    {
         $slug = Str::slug($request->name);
-        $categories = Category::where('slug',$slug)->get()->count();
-        if($categories == 0){
+        $categories = Category::where('slug', $slug)->get()->count();
+        if ($categories == 0) {
             $url = $slug;
-        }else{
+        } else {
             $url = $slug . '-' . Category::all()->count();
         }
         return $url;
     }
 
-    public function store(Request $request){
-        $validator = Validator::make($request->all(),[
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
             'name'      => 'required|string|max:255',
             'status'    => 'required'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return Response()->json([
                 'status'    => 401,
                 'errors'    => $validator->errors()->all()
             ]);
         }
 
-        
-        
+
+
         $category = new Category();
         $category->name = $request->name;
         $category->slug = $this->createCategoryURL($request);
@@ -56,11 +60,11 @@ class CategoryController extends Controller
         $category->meta_title = $request->meta_title;
         $category->meta_description = $request->meta_description;
 
-        if($request->hasFile('image')){
-            $imageValidate = Validator::make($request->all(),[
+        if ($request->hasFile('image')) {
+            $imageValidate = Validator::make($request->all(), [
                 'image'     => 'mimes:jpg,png,jpeg,gif,svg|image'
             ]);
-            if($imageValidate->fails()){
+            if ($imageValidate->fails()) {
                 return Response()->json([
                     'status'    => 401,
                     'errors'    => $imageValidate->errors()->all()
@@ -70,16 +74,16 @@ class CategoryController extends Controller
             $name = $image->getClientOriginalName() . time() . '_rh' . '.jpg';
             $image_path = storage_path('app/public/category/' . $name);
             $manager = new ImageManager(new Driver());
-            $manager->read($image)->save($image_path,70);
+            $manager->read($image)->save($image_path, 70);
             $category->image = $name;
         }
 
-        if($category->save()){
+        if ($category->save()) {
             return Response()->json([
                 'status'    => 200,
                 'message'   => 'Category Saved Successfully'
             ]);
-        }else{
+        } else {
             return Response()->json([
                 'status'    => 403,
                 'message'   => 'Something went wrong. Please try again.'
@@ -88,18 +92,20 @@ class CategoryController extends Controller
     }
 
 
-    public function editCategory($id){
+    public function editCategory($id)
+    {
         return view('Backend.Layout');
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $category = Category::find($id);
-        if($category){
+        if ($category) {
             return Response()->json([
                 'status'    => 200,
                 'category'  => $category
             ]);
-        }else{
+        } else {
             return Response()->json([
                 'status'    => 404,
                 'message'   => 'Category not found'
@@ -107,36 +113,38 @@ class CategoryController extends Controller
         }
     }
 
-    public function parentCategory(){
-        $categories = Category::where('status',1)->orWhere('parent_id',null)->get();
+    public function parentCategory()
+    {
+        $categories = Category::where('status', 1)->orWhere('parent_id', null)->get();
         return Response()->json([
             'status'        => 200,
             'categories'    => $categories
         ]);
     }
 
-    public function updateCategory(Request $request){
-        $validator = Validator::make($request->all(),[
+    public function updateCategory(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
             'name'      => 'required|string|max:255',
             'id'        => 'required',
             'slug'      => 'required|string|max:255'
         ]);
-        
-        if($validator->fails()){
+
+        if ($validator->fails()) {
             return Response()->json([
                 'status'    => 401,
                 'errors'    => $validator->errors()->all()
             ]);
         }
-        $category = Category::where('id',$request->id)->get()->first();
+        $category = Category::where('id', $request->id)->get()->first();
         $category->name = $request->name;
-        if($category->slug == $request->slug){
+        if ($category->slug == $request->slug) {
             $category->slug = $request->slug;
-        }else{
-            $slugValidator = Validator::make($request->all(),[
+        } else {
+            $slugValidator = Validator::make($request->all(), [
                 'slug'  => 'unique:categories.slug'
             ]);
-            if($slugValidator->fails()){
+            if ($slugValidator->fails()) {
                 return Response()->json([
                     'status'    => 401,
                     'errors'    => $slugValidator->errors()->all()
@@ -145,11 +153,11 @@ class CategoryController extends Controller
             $slug = $this->createCategoryURL($request);
             $category->slug = $slug;
         }
-        if($request->hasFile('image')){
-            $imageValidator = Validator::make($request->all(),[
+        if ($request->hasFile('image')) {
+            $imageValidator = Validator::make($request->all(), [
                 'image' => 'mimes:jpg,png,gif,svg,jpeg'
             ]);
-            if($imageValidator->fails()){
+            if ($imageValidator->fails()) {
                 return Response()->json([
                     'status'    => 401,
                     'errors'    => $imageValidator->errors()->all()
@@ -159,49 +167,67 @@ class CategoryController extends Controller
             $name = $image->getClientOriginalName() . time() . '_rh' . '.jpg';
             $image_path = storage_path('app/public/category/' . $name);
             $manager = new ImageManager(new Driver());
-            $manager->read($image)->save($image_path,70);
+            $manager->read($image)->save($image_path, 70);
             $category->image = $name;
         }
         $category->status = $request->status;
         $category->meta_title = $request->meta_title;
         $category->meta_description = $request->meta_description;
         $category->keywords = convert_array_to_string($request);
-        if($category->save()){
+        if ($category->save()) {
             return Response()->json([
                 'status'    => 200,
                 'message'   => 'Category update successfully'
             ]);
-        }else{
+        } else {
             return Response()->json([
                 'status'    => 402,
                 'message'   => 'Something went wrong. Please try again.'
             ]);
         }
-        
     }
 
 
-    
-    public function parentCategories(){
-        $categories = DB::table('categories')->where('parent_id',null)->orderByDesc('id')->get();
+
+    public function parentCategories()
+    {
+        $categories = DB::table('categories')->where('parent_id', null)->orderByDesc('id')->get();
         return Response()->json([
             'status'        => 200,
             'categories'    => $categories
         ]);
     }
 
-    public function deleteCategory($id){
-        $category = Category::where('id',$id)->get()->first();
+    public function deleteCategory($id)
+    {
+        $category = Category::where('id', $id)->get()->first();
+        if ($category) {
+            if(file_exists(storage_path('app/public/category/' . $category->image))){
+                unlink(storage_path('app/public/category/' . $category->image));
+            }
+            $category->delete();
+            return Response()->json([
+                'status'    => 200,
+                'message'   => 'Category Delete Successfully'
+            ]);
+        } else {
+            return Response()->json([
+                'status'    => 404,
+                'message'   => 'Category not found.'
+            ]);
+        }
     }
 
 
     // Sub Category Function Start Here
 
-    public function subCategoryAll(){
+    public function subCategoryAll()
+    {
         return view('Backend.Layout');
     }
 
-    public function subCategoryAdd(){
+    public function subCategoryAdd()
+    {
         return view('Backend.Layout');
     }
 }

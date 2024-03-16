@@ -20,17 +20,30 @@ const Category = () => {
         });
     }, []);
 
-    const handleDelete = (id) => {
+    const handleDelete = (e, id) => {
         swal({
-            title: 'Delete',
-            text: 'Are you sure want to delete?',
-            icon: 'warning',
-        }).then(willDelete => {
-            if(willDelete){
-                axios.delete(`/api/category/deleteCategory/${id}`)
+            title: "Delete",
+            text: "Are you sure want to delete?",
+            icon: "warning",
+            buttons: ['Cancel', 'Delete']
+        }).then((willDelete) => {
+            if (willDelete) {
+                axios
+                    .delete(`/api/category/deleteCategory/${id}`)
+                    .then((response) => {
+                        if (response.data.status === 200) {
+                            swal("Success", response.data.message, "success");
+                            const remainingData = categories.filter(
+                                (el) => el.id != id
+                            );
+                            setCategories(remainingData);
+                        } else {
+                            swal("Error", response.data.message, "error");
+                        }
+                    });
             }
-        })
-    }
+        });
+    };
     if (loading) {
         return <Loading />;
     }
@@ -119,7 +132,12 @@ const Category = () => {
                                                             <button
                                                                 type="button"
                                                                 className="btn btn-sm btn-outline-danger"
-                                                                onClick={() => handleDelete(el.id)}
+                                                                onClick={(e) =>
+                                                                    handleDelete(
+                                                                        e,
+                                                                        el.id
+                                                                    )
+                                                                }
                                                             >
                                                                 Delete
                                                             </button>
