@@ -190,6 +190,10 @@ class CategoryController extends Controller
         ]);
     }
 
+    public function deleteCategory($id){
+        $category = Category::where('id',$id)->get()->first();
+    }
+
 
     // Sub Category Function Start Here
 
