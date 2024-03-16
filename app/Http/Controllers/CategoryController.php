@@ -39,12 +39,6 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        if (!File::exists(storage_path('app/public/category'))) {
-            File::makeDirectory(storage_path('app/public/category'));
-        } else {
-            return Response()->json('nai');
-        }
-        return Response()->json('kichu hoynai');
         $validator = Validator::make($request->all(), [
             'name'      => 'required|string|max:255',
             'status'    => 'required'
