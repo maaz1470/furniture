@@ -1,6 +1,7 @@
 import React from "react";
 import { TagsInput } from "react-tag-input-component";
-const Seo = ({value, change}) => {
+const Seo = ({value, change, ...rest}) => {
+    
     return (
         <div>
             <div className="mb-5 flex items-center justify-between">
@@ -18,6 +19,7 @@ const Seo = ({value, change}) => {
                     name="meta_title"
                     className="form-input"
                     placeholder="Meta Title"
+                    defaultValue={rest?.data?.meta_title}
                 />
             </div>
             <div className="mb-3">
@@ -27,6 +29,7 @@ const Seo = ({value, change}) => {
                     placeholder="Meta Description"
                     cols="30"
                     rows="10"
+                    defaultValue={rest?.data?.meta_description}
                 ></textarea>
             </div>
         </div>
