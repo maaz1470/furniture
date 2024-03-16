@@ -18,12 +18,40 @@ export default function Header() {
                     </Link>
                 </div>
                 <div className="rightside flex items-center gap-5">
-                    <Link className="lg:border-r lg:pr-4 hover:text-primary hover:underline">login</Link>
-                    <Link className="lg:border-r lg:pr-4 hover:text-primary hover:underline">register</Link>
-                    <Link className="lg:border-r lg:pr-4 hover:text-primary hover:underline">order</Link>
-                    <div>my account</div>
-                    <div>wishlist</div>
-                    <div>cart</div>
+                    <Link className="lg:border-r lg:pr-4 hover:text-primary hover:underline">
+                        login
+                    </Link>
+                    <Link className="lg:border-r lg:pr-4 hover:text-primary hover:underline">
+                        register
+                    </Link>
+                    <Link className="lg:border-r lg:pr-4 hover:text-primary hover:underline">
+                        order
+                    </Link>
+                    <div className="dropdown relative">
+                        <div className="dropdown-toggle cursor-pointer hover:text-primary hover:underline">
+                            My account
+                        </div>
+                        <div className="dropdown-menu hidden absolute bg-white min-w-max  shadow-lg z-10">
+                            <div className="px-4 py-2 lg:w-[200px] hover:bg-gray-100 cursor-pointer">
+                                My Account
+                            </div>
+                            <div className="px-4 py-2 lg:w-[200px] hover:bg-gray-100 cursor-pointer">
+                                Track Order
+                            </div>
+                            <div className="px-4 py-2 lg:w-[200px] hover:bg-gray-100 cursor-pointer">
+                                Return
+                            </div>
+                            <div className="px-4 py-2 lg:w-[200px] hover:bg-gray-100 cursor-pointer">
+                                Invoice
+                            </div>
+                        </div>
+                    </div>
+                    <div className="hover:text-primary hover:underline">
+                        wishlist
+                    </div>
+                    <div className="hover:text-primary hover:underline">
+                        cart
+                    </div>
                 </div>
             </div>
 

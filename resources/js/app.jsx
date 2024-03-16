@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from 'react-dom/client'
 import route from "./front-end/route";
 import { RouterProvider } from "react-router-dom";
+import "./front-end/assets/css/app.css"
 
 
 
