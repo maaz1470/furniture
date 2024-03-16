@@ -6,6 +6,7 @@ use App\Models\Category;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
@@ -38,6 +39,12 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
+        if (!File::exists(storage_path('app/public/category'))) {
+            File::makeDirectory(storage_path('app/public/category'));
+        } else {
+            return Response()->json('nai');
+        }
+        return Response()->json('kichu hoynai');
         $validator = Validator::make($request->all(), [
             'name'      => 'required|string|max:255',
             'status'    => 'required'
@@ -72,7 +79,11 @@ class CategoryController extends Controller
             }
             $image = $request->file('image');
             $name = $image->getClientOriginalName() . time() . '_rh' . '.jpg';
-            $image_path = storage_path('app/public/category/' . $name);
+            $path = 'app/public/category';
+            if (!File::exists(storage_path($path))) {
+                File::makeDirectory(storage_path('app/public/category'));
+            }
+            $image_path = storage_path($path . '/' . $name);
             $manager = new ImageManager(new Driver());
             $manager->read($image)->save($image_path, 70);
             $category->image = $name;
@@ -202,7 +213,7 @@ class CategoryController extends Controller
     {
         $category = Category::where('id', $id)->get()->first();
         if ($category) {
-            if(file_exists(storage_path('app/public/category/' . $category->image))){
+            if (file_exists(storage_path('app/public/category/' . $category->image))) {
                 unlink(storage_path('app/public/category/' . $category->image));
             }
             $category->delete();

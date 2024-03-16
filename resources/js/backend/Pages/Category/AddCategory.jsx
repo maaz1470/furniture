@@ -52,6 +52,7 @@ const AddCategory = () => {
         axios
             .post(`/api/category/store`, formData)
             .then((response) => {
+                console.log(response)
                 if (response.data.status === 401) {
                     response.data.errors.forEach((el) =>
                         toast.error(el, {
