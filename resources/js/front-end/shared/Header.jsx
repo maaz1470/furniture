@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../../../../public/assets/images/frontent/logo/logo.svg";
+import logo from '../assets/images/logo/logo.svg'
 import { Link } from "react-router-dom";
 
 export default function Header() {
