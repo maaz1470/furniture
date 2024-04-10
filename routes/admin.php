@@ -9,7 +9,7 @@ use Illuminate\Auth\Events\PasswordReset;
 
 Route::prefix('auth')->group(function(){
     Route::get('/login',function(){
-        return view('Backend.layout');
+        return view('Backend.Layout');
     })->name('admin.login');
 
     Route::get('/register',function(){
@@ -45,6 +45,14 @@ Route::middleware(['auth:sanctum','AdminGuard'])->group(function(){
         Route::name('sub-category.')->group(function(){
             Route::get('/',[CategoryController::class, 'subCategoryAll'])->name('all');
             Route::get('/add',[CategoryController::class, 'subCategoryAdd'])->name('subCategoryAdd');
+            Route::get('/edit/{id}',[CategoryController::class, 'subCategoryEditLayout'])->name('editLayout');
+        });
+    });
+
+    Route::prefix('sub-sub-category')->group(function(){
+        Route::name('sub-sub-category.')->group(function(){
+            Route::get('/',[CategoryController::class, 'subSubCategoryPage'])->name('index');
+            Route::get('/add',[CategoryController::class, 'addSubSubCategoryPage'])->name('add');
         });
     });
 

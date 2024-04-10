@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\SubCategory;
+use App\Models\SubSubCategory;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -120,7 +122,7 @@ class CategoryController extends Controller
 
     public function parentCategory()
     {
-        $categories = Category::where('status', 1)->orWhere('parent_id', null)->get();
+        $categories = DB::table('categories')->orWhere('status',1)->where('parent_id',null)->get();
         return Response()->json([
             'status'        => 200,
             'categories'    => $categories
@@ -231,8 +233,224 @@ class CategoryController extends Controller
         return view('Backend.Layout');
     }
 
+    public function subParentCategory(){
+
+    }
+
     public function subCategoryAdd()
     {
         return view('Backend.Layout');
+    }
+
+    public function subCategoryStore(Request $request){
+        $validator = Validator::make($request->all(),[
+            'name'              => 'required|string|max:255',
+            'status'            => 'required',
+            "parent_category"   => 'required'
+        ]);
+        if($validator->fails()){
+            return Response()->json([
+                'status'    => 401,
+                'errors'    => $validator->errors()->all()
+            ]);
+        }
+        $category = new SubCategory();
+        $category->name = $request->name;
+        $category->slug = $this->createCategoryURL($request);
+        $category->status = $request->status;
+        $category->parent_id = $request->parent_category;
+        $category->meta_title = $request->meta_title;
+        $category->keywords = convert_array_to_string($request);
+        $category->meta_description = $request->meta_description;
+        if($request->hasFile('image')){
+            $imageValidator = Validator::make($request->all(),[
+                'image'     => 'mimes:jpg,png,jpeg,gif,svg'
+            ]);
+            if($imageValidator->fails()){
+                return Response()->json([
+                    'status'    => 401,
+                    'errors'    => $imageValidator->errors()->all()
+                ]);
+            }
+            $image = upload_image('sub-category',$request->file('image'));
+            $category->image = $image;
+            
+        }
+        if($category->save()){
+            return Response()->json([
+                'status'    => 200,
+                'message'   => 'Category Saved Successfully'
+            ]);
+        }
+    }
+
+
+    // All Sub Categories
+    public function allSubCategory(){
+        $categories = SubCategory::with('parentCategory')->get();
+        return Response()->json([
+            'status'        => 200,
+            'categories'    => $categories
+        ]);
+    }
+    // Sub Category Edit Layout
+    public function subCategoryEditLayout(){
+        return view('Backend.Layout');
+    }
+    // Sub Category Edit
+    public function editSubCategory($id){
+        $category = SubCategory::where('id',$id)->get()->first();
+        if($category){
+            return Response()->json([
+                'status'    => 200,
+                'category'  => $category
+            ]);
+        }else{
+            return Response()->json([
+                'status'    => 404,
+                'message'   => 'Category not found.'
+            ]);
+        }
+    }
+    // Sub Category Update
+    public function updateSubCategory(Request $request){
+        $validator = Validator::make($request->all(),[
+            'name'              => 'required|string|max:255',
+            'slug'              => 'required|max:255',
+            'status'            => 'required',
+            'parent_category'   => 'required'
+        ]);
+
+        if($validator->fails()){
+            return Response()->json([
+                'status'    => 401,
+                'errors'    => $validator->errors()->all()
+            ]);
+        }
+
+        $category = SubCategory::where('id',$request->id)->get()->first();
+        if($category){
+            $category->name = $request->name;
+            $category->status = $request->status;
+            if($category->slug == $request->slug){
+                $category->slug = Str::slug($request->slug);
+            }else{
+                $slugValidator = Validator::make($request->all(),[
+                    'slug'  => 'unique:categories,slug'
+                ]);
+                if($slugValidator->fails()){
+                    return Response()->json([
+                        'status'    => 401,
+                        'errors'    => $slugValidator->errors()->all()
+                    ]);
+                }
+                $category->slug = $this->createCategoryURL($request);
+
+            }
+            $category->parent_id = $request->parent_category;
+            $category->meta_title = $request->meta_title;
+            $category->meta_description = $request->meta_description;
+            $category->keywords = $request->keywords;
+
+            if($request->hasFile('image')){
+                $imageValidator = Validator::make($request->all(),[
+                    'image'     => 'mimes:jpg,png,jpeg,gif'
+                ]);
+                if($imageValidator->fails()){
+                    return Response()->json([
+                        'status'    => 401,
+                        'errors'    => $imageValidator->errors()->all()
+                    ]);
+                }
+                if($category->image){
+                    if(File::exists(storage_path('app/public/sub-category/' . $category->image))){
+                        unlink(storage_path('app/public/sub-category/' . $category->image));
+                    }
+                }
+                $image = upload_image('sub-category',$request->file('image'));
+                $category->image = $image;
+            }
+            if($category->save()){
+                return Response()->json([
+                    'status'    => 200,
+                    'message'   => 'Category update successfully'
+                ]);
+            }else{
+                return Response()->json([
+                    'status'    => 402,
+                    'message'   => 'Something went wrong. Please try again.'
+                ]);
+            }
+
+        }else{
+            return Response()->json([
+                'status'    => 404,
+                'message'   => 'Category not found.'
+            ]);
+        }
+    }
+
+    // Delete Category
+    public function subCategoryDelete($id){
+        $category = SubCategory::where('id',$id)->get()->first();
+        if($category){
+            if(File::exists(storage_path('app/public/sub-category/' . $category->image))){
+                unlink(storage_path('app/public/sub-category/' . $category->image));
+            }
+            $category->delete();
+            return Response()->json([
+                'status'    => 200,
+                'message'   => 'Category Delete Successfully'
+            ]);
+        }else{
+            return Response()->json([
+                'status'    => 404,
+                'message'   => 'Category not found'
+            ]);
+        }
+    }
+
+
+
+
+    // Sub Sub Category Section Start Here
+
+    public function subSubCategoryPage(){
+        return view('Backend.Layout');
+    }
+
+    // Add Sub Sub Category Page
+
+    public function addSubSubCategoryPage(){
+        return view('Backend.Layout');
+    }
+
+    public function subParentCategory(){
+        $categories = SubCategory::all()->where('status',1);
+        return Response()->json([
+            'status'        => 200,
+            'categories'    => $categories
+        ]);
+    }
+
+    // All sub Sub Category
+
+    public function allSubSubCategory(){
+        $categories = SubSubCategory::with('parentCategory')->get();
+        return Response()->json($categories);
+    }
+
+    public function subSubCategoryStore(Request $request){
+        $validator = Validator::make($request->all(),[
+            'name'      => 'required|string|max:255',
+            'status'    => 'required',
+            'parent_id' => 'required'
+        ]);
+        if($validator->fails()){
+            return Response()->json([
+                'status'    => 401,
+                'errors'    => $validator->errors()->all()
+            ]);
+        }
     }
 }

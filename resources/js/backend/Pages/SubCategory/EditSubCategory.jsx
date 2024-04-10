@@ -2,29 +2,51 @@ import React, { useEffect, useState } from "react";
 import Image from "./../../assets/images/product/product-1.jpg";
 import axios from "axios";
 import withProgress from "../../HOC/withProgress";
-import { AdminURL } from "../../hook/useAdminUrl";
+import { AdminURL, AppURL } from "../../hook/useAdminUrl";
 import Seo from "../../Component/Seo/Seo";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import swal from "sweetalert";
 import { Helmet } from "react-helmet-async";
-const AddSubCategory = () => {
+import { useNavigate, useParams } from "react-router-dom";
+import Loading from "../../shared/Loading/Loading";
+const EditSubCategory = () => {
     const [processImage, setProcessImage] = useState(null);
     const [keywords, setKeywords] = useState([]);
     const [processing, setProcessing] = useState(false);
     const [categories, setCategories] = useState([]);
+    const [category, setCategory] = useState({})
+    const [loading, setLoading] = useState(true)
 
     const handleChange = (tag) => {
         setKeywords(tag);
     };
 
+    const navigate = useNavigate();
+
+    const { id } = useParams();
+
     useEffect(() => {
-        axios.get(`${AdminURL}/category/add`);
-        axios.get('/api/sub-category/parent-category').then(response => {
+        axios.get('/api/category/parent-category').then(response => {
             console.log(response)
-            if(response.data.status === 200){
+            if (response.data.status === 200) {
                 setCategories(response.data.categories)
             }
+        })
+        axios.get(`/api/sub-category/sub-edit/${id}`).then(response => {
+            if (response.data.status === 200) {
+                if (response.data.category.keywords) {
+                    const keywords = response.data.category.keywords.split(',')
+                    setKeywords(keywords)
+                }
+                setCategory(response.data.category)
+                
+            }else if(response.data.status === 404){
+                navigate(`${AdminURL}/sub-category`)
+            }
+            setLoading(false)
+        }).catch(err => {
+            setLoading(false)
         })
     }, []);
 
@@ -49,8 +71,10 @@ const AddSubCategory = () => {
         const meta_title = form.meta_title.value;
         const meta_description = form.meta_description.value;
         const sub_category = form.sub_category.value;
+        const url = form.slug.value;
 
         const formData = new FormData();
+        formData.append('id',id)
         formData.append("name", name);
         formData.append("status", status);
         formData.append("parent_category", sub_category);
@@ -58,8 +82,9 @@ const AddSubCategory = () => {
         formData.append("meta_description", meta_description);
         formData.append("image", processImage);
         formData.append("keywords", keywords);
+        formData.append('slug',url)
         axios
-            .post(`/api/sub-category/store`, formData)
+            .post(`/api/sub-category/update`, formData)
             .then((response) => {
                 console.log(response)
                 if (response.data.status === 401) {
@@ -70,11 +95,6 @@ const AddSubCategory = () => {
                     );
                 } else if (response.data.status === 200) {
                     swal("Success", response.data.message, "success");
-                    const preview_image =
-                        document.getElementById("preview_image");
-                    preview_image.src = Image;
-                    setKeywords([]);
-                    form.reset();
                 } else {
                     swal(
                         "Error",
@@ -88,6 +108,10 @@ const AddSubCategory = () => {
                 setProcessing(false);
             });
     };
+
+    if(loading){
+        return <Loading />
+    }
 
     return (
         <div>
@@ -119,16 +143,26 @@ const AddSubCategory = () => {
                                 onSubmit={handleSubmit}
                                 encType="multipart/form-data"
                             >
+                            <div>
+                                <input
+                                    name="name"
+                                    type="text"
+                                    placeholder="Category Name"
+                                    className="form-input"
+                                    defaultValue={category.name}
+                                />
+                            </div>
                                 <div>
                                     <input
-                                        name="name"
+                                        name="slug"
                                         type="text"
-                                        placeholder="Category Name"
+                                        placeholder="Category Slug"
                                         className="form-input"
+                                        defaultValue={category.slug}
                                     />
                                 </div>
                                 <div>
-                                    <select name="sub_category" className="form-input">
+                                    <select name="sub_category" defaultValue={category.parent_id} className="form-input">
                                         {
                                             categories.map((el, index) => {
                                                 return <option key={index} value={el.id}>{el.name}</option>
@@ -149,7 +183,7 @@ const AddSubCategory = () => {
                                         <img
                                             id="preview_image"
                                             width="300"
-                                            src={Image}
+                                            src={category.image ? `${AppURL}/storage/sub-category/${category.image}` : Image}
                                             alt=""
                                         />
                                     </div>
@@ -168,7 +202,7 @@ const AddSubCategory = () => {
                                 <br />
                                 <br />
 
-                                <Seo value={keywords} change={handleChange} />
+                                <Seo value={keywords} change={handleChange} data={category} />
 
                                 <button
                                     type="submit"
@@ -186,4 +220,4 @@ const AddSubCategory = () => {
     );
 };
 
-export default withProgress(AddSubCategory);
+export default withProgress(EditSubCategory);

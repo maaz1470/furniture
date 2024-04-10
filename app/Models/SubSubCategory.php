@@ -5,18 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class SubSubCategory extends Model
 {
     use HasFactory;
-    protected $table = 'categories';
+
+    protected $table = 'sub_sub_categories';
 
     protected $fillable = [
         'name',
         'slug',
-        'status'
+        'parent_id',
+        'status',
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 
     public function parentCategories(){
-        return $this->hasMany(Category::class, 'id', 'parent_id')->with('parentCategories');
+        return $this->hasOne(SubCategory::class, 'id','parent_id');
     }
 }

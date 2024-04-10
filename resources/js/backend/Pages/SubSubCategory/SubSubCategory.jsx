@@ -7,7 +7,7 @@ import axios from "axios";
 import Loading from "../../shared/Loading/Loading";
 import swal from "sweetalert";
 
-const SubCategory = () => {
+const SubSubCategory = () => {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
@@ -68,7 +68,7 @@ const SubCategory = () => {
                             </h5>
                             <Link
                                 className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600"
-                                to={`${AdminURL}/sub-category/add`}
+                                to={`${AdminURL}/sub-sub-category/add`}
                             >
                                 <button
                                     type="button"
@@ -138,4 +138,4 @@ const SubCategory = () => {
     );
 };
 
-export default withProgress(SubCategory);
+export default withProgress(SubSubCategory);

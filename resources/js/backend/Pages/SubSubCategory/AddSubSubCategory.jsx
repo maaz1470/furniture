@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import swal from "sweetalert";
 import { Helmet } from "react-helmet-async";
-const AddSubCategory = () => {
+const AddSubSubCategory = () => {
     const [processImage, setProcessImage] = useState(null);
     const [keywords, setKeywords] = useState([]);
     const [processing, setProcessing] = useState(false);
@@ -186,4 +186,4 @@ const AddSubCategory = () => {
     );
 };
 
-export default withProgress(AddSubCategory);
+export default withProgress(AddSubSubCategory);

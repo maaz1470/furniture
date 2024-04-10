@@ -31,6 +31,7 @@ Route::prefix('admin')->group(function(){
 
 
 Route::middleware(['auth:sanctum','AdminGuard'])->group(function(){
+    // Authorization check
     Route::prefix('admin')->group(function(){
         Route::get('/checkAdmin',function(){
             return Response()->json([
@@ -41,7 +42,7 @@ Route::middleware(['auth:sanctum','AdminGuard'])->group(function(){
 
         Route::get('/logout',[AdminController::class, 'logout'])->name('admin.logout');
     });
-
+    // Category routes here
     Route::prefix('category')->group(function(){
         Route::name('category.')->group(function(){
             Route::post('/store',[CategoryController::class, 'store'])->name('store');
@@ -50,6 +51,24 @@ Route::middleware(['auth:sanctum','AdminGuard'])->group(function(){
             Route::get('/parent-category',[CategoryController::class, 'parentCategory'])->name('parent-category');
             Route::post('/updateCategory',[CategoryController::class, 'updateCategory'])->name('updateCategory');
             Route::delete('/deleteCategory/{id}',[CategoryController::class, 'deleteCategory'])->name('deleteCategory');
+        });
+    });
+    // Sub Categories Routes Here
+    Route::prefix('sub-category')->group(function(){
+        Route::name('subcategory.')->group(function(){
+            Route::post('/store',[CategoryController::class, 'subCategoryStore'])->name('store');
+            Route::get('/all',[CategoryController::class,'allSubCategory'])->name('all');
+            Route::get('/sub-edit/{id}',[CategoryController::class, 'editSubCategory'])->name('edit');
+            Route::post('/update',[CategoryController::class, 'updateSubCategory'])->name('update');
+            Route::delete('/delete/{id}',[CategoryController::class, 'subCategoryDelete'])->name('delete');
+            Route::get('/parent-category',[CategoryController::class, 'subParentCategory'])->name('subParentCategory');
+        });
+    });
+
+    Route::prefix('sub-sub-category')->group(function(){
+        Route::name('subsubcategory.')->group(function(){
+            Route::get('/all',[CategoryController::class, 'allSubSubCategory'])->name('all');
+            Route::post('/store',[CategoryController::class, 'subSubCategoryStore'])->name('store');
         });
     });
 });

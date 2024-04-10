@@ -325,14 +325,11 @@ const DashboardLayout = () => {
                                                         </Link>
                                                     </li>
                                                     <li>
-                                                        <a href="apps-invoice-add.html">
-                                                            Add
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="apps-invoice-edit.html">
-                                                            Edit
-                                                        </a>
+                                                        <Link
+                                                            to={`${AdminURL}/sub-sub-category`}
+                                                        >
+                                                            Sub Sub Category
+                                                        </Link>
                                                     </li>
                                                 </ul>
                                             )}
