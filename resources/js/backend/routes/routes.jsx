@@ -21,6 +21,9 @@ import EditSubCategory from "../Pages/SubCategory/EditSubCategory";
 import SubSubCategory from "../Pages/SubSubCategory/SubSubCategory";
 import AddSubSubCategory from "../Pages/SubSubCategory/AddSubSubCategory";
 import EditSubSubCategory from "../Pages/SubSubCategory/EditSubSubCategory";
+import TagLayout from "../Pages/Tag/TagLayout";
+import AddTag from "../Pages/Tag/AddTag";
+import Tags from "../Pages/Tag/Tags";
 
 const routes = createBrowserRouter([
     {
@@ -108,6 +111,20 @@ const routes = createBrowserRouter([
                             {
                                 path: 'edit/:id',
                                 element: <EditSubSubCategory />
+                            }
+                        ]
+                    },
+                    {
+                        path: 'tag',
+                        element: <TagLayout />,
+                        children: [
+                            {
+                                path: '',
+                                element: <Tags />
+                            },
+                            {
+                                path: 'add',
+                                element: <AddTag />
                             }
                         ]
                     }

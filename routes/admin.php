@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
@@ -54,6 +55,13 @@ Route::middleware(['auth:sanctum','AdminGuard'])->group(function(){
             Route::get('/',[CategoryController::class, 'subSubCategoryPage'])->name('index');
             Route::get('/add',[CategoryController::class, 'addSubSubCategoryPage'])->name('add');
             Route::get('/edit/{id}',[CategoryController::class, 'editSubSubCategoryPage'])->name('edit');
+        });
+    });
+
+    Route::prefix('tag')->group(function(){
+        Route::name('tag.')->group(function(){
+            Route::get('/',[TagController::class, 'layout'])->name('layout');
+            Route::get('/add',[TagController::class, 'addPage'])->name('addPage');
         });
     });
 

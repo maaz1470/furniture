@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import swal from "sweetalert";
 import { Helmet } from "react-helmet-async";
-const AddCategory = () => {
+const AddTag = () => {
     const [processImage, setProcessImage] = useState(null);
     const [keywords, setKeywords] = useState([]);
     const [processing, setProcessing] = useState(false);
@@ -90,11 +90,11 @@ const AddCategory = () => {
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
                         <a href="#" className="text-primary hover:underline">
-                            Category
+                            Forms
                         </a>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
-                        <span>Add Category</span>
+                        <span>Layouts</span>
                     </li>
                 </ul>
                 <div className="pt-5">
@@ -168,4 +168,4 @@ const AddCategory = () => {
     );
 };
 
-export default withProgress(AddCategory);
+export default withProgress(AddTag);
