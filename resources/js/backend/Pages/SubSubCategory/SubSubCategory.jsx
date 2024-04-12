@@ -11,9 +11,8 @@ const SubSubCategory = () => {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
-        axios.get("/api/sub-category/all").then((response) => {
+        axios.get("/api/sub-sub-category/all").then((response) => {
             setLoading(false);
-            console.log(response)
             if (response.data.status === 200) {
                 setCategories(response.data.categories);
             }
@@ -29,7 +28,7 @@ const SubSubCategory = () => {
         })
             .then((willDelete) => {
                 if (willDelete) {
-                    axios.delete(`/api/sub-category/delete/${id}`).then(response => {
+                    axios.delete(`/api/sub-sub-category/delete/${id}`).then(response => {
                         if(response.data.status === 200){
                             swal('Success',response.data.message,'success')
                         }else if(response.data.status === 404){
@@ -47,13 +46,13 @@ const SubSubCategory = () => {
     return (
         <div>
             <Helmet>
-                <title>All Categories</title>
+                <title>All Sub Categories</title>
             </Helmet>
             <div>
                 <ul className="flex space-x-2 rtl:space-x-reverse mb-5">
                     <li>
                         <a href="#" className="text-primary hover:underline">
-                            Sub Categories
+                            Sub Sub Categories
                         </a>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
@@ -64,7 +63,7 @@ const SubSubCategory = () => {
                     <div className="panel">
                         <div className="mb-5 flex items-center justify-between">
                             <h5 className="text-lg font-semibold dark:text-white-light">
-                                All Categories
+                                All Sub Categories
                             </h5>
                             <Link
                                 className="font-semibold hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-600"
@@ -98,10 +97,10 @@ const SubSubCategory = () => {
                                                         {el.name}
                                                     </td>
                                                     <td className="text-center flex justify-center">
-                                                        {el.image ? <img src={`${AppURL}/storage/sub-category/${el.image}`} width={200} alt="" /> : 'No Image Found'}
+                                                        {el.image ? <img src={`${AppURL}/storage/sub-sub-category/${el.image}`} width={200} alt="" /> : 'No Image Found'}
                                                     </td>
                                                     <td className="text-center">
-                                                        {el.parent_category.name}
+                                                        {el.parent_categories.name}
                                                     </td>
                                                     <td className="text-center">
                                                         {el.status == 1 ? 'Published' : 'Unpublished'}
@@ -109,7 +108,7 @@ const SubSubCategory = () => {
                                                     <td className="text-center">
                                                         <div className="flex items-center justify-center gap-4">
                                                             <Link
-                                                                to={`${AdminURL}/sub-category/edit/${el.id}`}
+                                                                to={`${AdminURL}/sub-sub-category/edit/${el.id}`}
                                                                 type="button"
                                                                 className="btn btn-sm btn-outline-primary"
                                                             >

@@ -69,6 +69,9 @@ Route::middleware(['auth:sanctum','AdminGuard'])->group(function(){
         Route::name('subsubcategory.')->group(function(){
             Route::get('/all',[CategoryController::class, 'allSubSubCategory'])->name('all');
             Route::post('/store',[CategoryController::class, 'subSubCategoryStore'])->name('store');
+            Route::get('/edit/{id}',[CategoryController::class, 'subSubCategoryEdit'])->name('edit');
+            Route::post('/update',[CategoryController::class, 'updateSubSubCategory'])->name('update');
+            Route::delete('/delete/{id}',[CategoryController::class, 'deleteSubSubCategory'])->name('delete');
         });
     });
 });

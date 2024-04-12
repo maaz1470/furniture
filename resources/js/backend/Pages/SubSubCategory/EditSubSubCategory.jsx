@@ -10,7 +10,7 @@ import swal from "sweetalert";
 import { Helmet } from "react-helmet-async";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../shared/Loading/Loading";
-const EditSubCategory = () => {
+const EditSubSubCategory = () => {
     const [processImage, setProcessImage] = useState(null);
     const [keywords, setKeywords] = useState([]);
     const [processing, setProcessing] = useState(false);
@@ -27,13 +27,13 @@ const EditSubCategory = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get('/api/category/parent-category').then(response => {
+        axios.get('/api/sub-category/parent-category').then(response => {
             console.log(response)
             if (response.data.status === 200) {
                 setCategories(response.data.categories)
             }
         })
-        axios.get(`/api/sub-category/sub-edit/${id}`).then(response => {
+        axios.get(`/api/sub-sub-category/edit/${id}`).then(response => {
             if (response.data.status === 200) {
                 if (response.data.category.keywords) {
                     const keywords = response.data.category.keywords.split(',')
@@ -84,7 +84,7 @@ const EditSubCategory = () => {
         formData.append("keywords", keywords);
         formData.append('slug',url)
         axios
-            .post(`/api/sub-category/update`, formData)
+            .post(`/api/sub-sub-category/update`, formData)
             .then((response) => {
                 console.log(response)
                 if (response.data.status === 401) {
@@ -117,7 +117,7 @@ const EditSubCategory = () => {
         <div>
             <ToastContainer />
             <Helmet>
-                <title>Edit Sub Category</title>
+                <title>Add Sub Category</title>
             </Helmet>
             <div>
                 <ul className="flex space-x-2 rtl:space-x-reverse">
@@ -127,7 +127,7 @@ const EditSubCategory = () => {
                         </a>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
-                        <span>Edit</span>
+                        <span>Add</span>
                     </li>
                 </ul>
                 <div className="pt-5">
@@ -183,7 +183,7 @@ const EditSubCategory = () => {
                                         <img
                                             id="preview_image"
                                             width="300"
-                                            src={category.image ? `${AppURL}/storage/sub-category/${category.image}` : Image}
+                                            src={category.image ? `${AppURL}/storage/sub-sub-category/${category.image}` : Image}
                                             alt=""
                                         />
                                     </div>
@@ -220,4 +220,4 @@ const EditSubCategory = () => {
     );
 };
 
-export default withProgress(EditSubCategory);
+export default withProgress(EditSubSubCategory);

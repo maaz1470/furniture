@@ -54,6 +54,14 @@ const DashboardLayout = () => {
             setExpandMenu({
                 category: true,
             });
+        }else if(location.pathname == `${AdminURL}/sub-sub-category`){
+            setExpandMenu({
+                category: true
+            })
+        }else if(location.pathname == `${AdminURL}/sub-sub-category/add`){
+            setExpandMenu({
+                category: true
+            })
         }
     }, [location.pathname]);
 
@@ -327,6 +335,7 @@ const DashboardLayout = () => {
                                                     <li>
                                                         <Link
                                                             to={`${AdminURL}/sub-sub-category`}
+                                                            className={(location.pathname == (`${AdminURL}/sub-sub-category` || `${AdminURL}/sub-sub-category/add`)) ? `text-blue-600` : ''}
                                                         >
                                                             Sub Sub Category
                                                         </Link>

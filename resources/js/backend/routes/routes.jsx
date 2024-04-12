@@ -20,6 +20,7 @@ import AddSubCategory from "../Pages/SubCategory/AddSubCategory";
 import EditSubCategory from "../Pages/SubCategory/EditSubCategory";
 import SubSubCategory from "../Pages/SubSubCategory/SubSubCategory";
 import AddSubSubCategory from "../Pages/SubSubCategory/AddSubSubCategory";
+import EditSubSubCategory from "../Pages/SubSubCategory/EditSubSubCategory";
 
 const routes = createBrowserRouter([
     {
@@ -103,6 +104,10 @@ const routes = createBrowserRouter([
                             {
                                 path:'add',
                                 element: <AddSubSubCategory />
+                            },
+                            {
+                                path: 'edit/:id',
+                                element: <EditSubSubCategory />
                             }
                         ]
                     }

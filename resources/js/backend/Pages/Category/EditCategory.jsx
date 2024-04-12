@@ -117,11 +117,11 @@ const EditCategory = () => {
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
                         <a href="#" className="text-primary hover:underline">
-                            Forms
+                            Category
                         </a>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
-                        <span>Layouts</span>
+                        <span>Edit</span>
                     </li>
                 </ul>
                 <div className="pt-5">

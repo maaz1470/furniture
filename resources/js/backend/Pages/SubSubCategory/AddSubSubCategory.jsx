@@ -8,11 +8,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import swal from "sweetalert";
 import { Helmet } from "react-helmet-async";
+import Loading from "../../shared/Loading/Loading";
 const AddSubSubCategory = () => {
     const [processImage, setProcessImage] = useState(null);
     const [keywords, setKeywords] = useState([]);
     const [processing, setProcessing] = useState(false);
     const [categories, setCategories] = useState([]);
+    const [loading, setLoading] = useState(true)
 
     const handleChange = (tag) => {
         setKeywords(tag);
@@ -21,10 +23,13 @@ const AddSubSubCategory = () => {
     useEffect(() => {
         axios.get(`${AdminURL}/category/add`);
         axios.get('/api/sub-category/parent-category').then(response => {
-            console.log(response)
+            setLoading(false)
             if(response.data.status === 200){
                 setCategories(response.data.categories)
             }
+            
+        }).catch(error => {
+            setLoading(false)
         })
     }, []);
 
@@ -59,7 +64,7 @@ const AddSubSubCategory = () => {
         formData.append("image", processImage);
         formData.append("keywords", keywords);
         axios
-            .post(`/api/sub-category/store`, formData)
+            .post(`/api/sub-sub-category/store`, formData)
             .then((response) => {
                 console.log(response)
                 if (response.data.status === 401) {
@@ -89,6 +94,10 @@ const AddSubSubCategory = () => {
             });
     };
 
+    if(loading){
+        return <Loading />
+    }
+
     return (
         <div>
             <ToastContainer />
@@ -99,7 +108,7 @@ const AddSubSubCategory = () => {
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
                         <a href="#" className="text-primary hover:underline">
-                            Sub Category
+                            Sub Sub Category
                         </a>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">

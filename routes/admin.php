@@ -53,6 +53,7 @@ Route::middleware(['auth:sanctum','AdminGuard'])->group(function(){
         Route::name('sub-sub-category.')->group(function(){
             Route::get('/',[CategoryController::class, 'subSubCategoryPage'])->name('index');
             Route::get('/add',[CategoryController::class, 'addSubSubCategoryPage'])->name('add');
+            Route::get('/edit/{id}',[CategoryController::class, 'editSubSubCategoryPage'])->name('edit');
         });
     });
 
