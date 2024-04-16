@@ -62,6 +62,7 @@ Route::middleware(['auth:sanctum','AdminGuard'])->group(function(){
         Route::name('tag.')->group(function(){
             Route::get('/',[TagController::class, 'layout'])->name('layout');
             Route::get('/add',[TagController::class, 'addPage'])->name('addPage');
+            Route::get('/edit/{id}',[TagController::class, 'editPage'])->name('editPage');
         });
     });
 

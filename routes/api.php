@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TagController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -72,6 +73,17 @@ Route::middleware(['auth:sanctum','AdminGuard'])->group(function(){
             Route::get('/edit/{id}',[CategoryController::class, 'subSubCategoryEdit'])->name('edit');
             Route::post('/update',[CategoryController::class, 'updateSubSubCategory'])->name('update');
             Route::delete('/delete/{id}',[CategoryController::class, 'deleteSubSubCategory'])->name('delete');
+        });
+    });
+
+
+    // Tag Routes
+
+    Route::prefix('tag')->group(function(){
+        Route::name('tag.')->group(function(){
+            Route::post('/store',[TagController::class, 'store'])->name('store');
+            Route::get('/all',[TagController::class, 'all'])->name('all');
+            Route::get('/edit/{id}',[TagController::class, 'edit']);
         });
     });
 });

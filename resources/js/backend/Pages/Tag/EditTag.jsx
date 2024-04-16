@@ -8,16 +8,38 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import swal from "sweetalert";
 import { Helmet } from "react-helmet-async";
-const AddTag = () => {
+import { useNavigate, useParams } from "react-router-dom";
+import Loading from "../../shared/Loading/Loading";
+const EditTag = () => {
+    const [tag, setTag] = useState({})
     const [keywords, setKeywords] = useState([]);
     const [processing, setProcessing] = useState(false);
+    const [loading, setLoading] = useState(true)
 
     const handleChange = (tag) => {
         setKeywords(tag);
     };
 
+    const navigate = useNavigate();
+
+    const {id} = useParams();
+
     useEffect(() => {
-        axios.get(`${AdminURL}/tag/add`);
+        axios.get(`${AdminURL}/tag/edit/${id}`);
+
+        axios.get(`/api/tag/edit/${id}`).then(response => {
+            setLoading(false)
+            if(response.data.status === 200){
+                setTag(response.data.tag)
+            }else if(response.data.status === 404){
+                swal('Error',response.data.message,'error')
+                navigate(`${AdminURL}/tag`,{
+                    replace: true
+                })
+            }else{
+                swal('Error','Something went wrong. Please try again.','error')
+            }
+        })
     }, []);
 
 
@@ -62,6 +84,10 @@ const AddTag = () => {
             });
     };
 
+    if(loading){
+        return <Loading />
+    }
+
     return (
         <div>
             <ToastContainer />
@@ -95,6 +121,7 @@ const AddTag = () => {
                                 <div>
                                     <input
                                         name="name"
+                                        defaultValue={tag.name}
                                         type="text"
                                         placeholder="Tag Name"
                                         className="form-input"
@@ -122,4 +149,4 @@ const AddTag = () => {
     );
 };
 
-export default withProgress(AddTag);
+export default withProgress(EditTag);

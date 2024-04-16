@@ -24,6 +24,7 @@ import EditSubSubCategory from "../Pages/SubSubCategory/EditSubSubCategory";
 import TagLayout from "../Pages/Tag/TagLayout";
 import AddTag from "../Pages/Tag/AddTag";
 import Tags from "../Pages/Tag/Tags";
+import EditTag from "../Pages/Tag/EditTag";
 
 const routes = createBrowserRouter([
     {
@@ -125,6 +126,10 @@ const routes = createBrowserRouter([
                             {
                                 path: 'add',
                                 element: <AddTag />
+                            },
+                            {
+                                path: 'edit/:id',
+                                element: <EditTag />
                             }
                         ]
                     }

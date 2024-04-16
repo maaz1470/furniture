@@ -8,14 +8,14 @@ import Loading from "../../shared/Loading/Loading";
 import swal from "sweetalert";
 
 const Tag = () => {
-    const [categories, setCategories] = useState([]);
+    const [tags, setTags] = useState([]);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
-        axios.get("/api/category/all").then((response) => {
+        axios.get("/api/tag/all").then((response) => {
             console.log(response);
             setLoading(false);
             if (response.data.status === 200) {
-                setCategories(response.data.categories);
+                setTags(response.data.tags);
             }
         });
     }, []);
@@ -33,10 +33,10 @@ const Tag = () => {
                     .then((response) => {
                         if (response.data.status === 200) {
                             swal("Success", response.data.message, "success");
-                            const remainingData = categories.filter(
+                            const remainingData = tags.filter(
                                 (el) => el.id != id
                             );
-                            setCategories(remainingData);
+                            setTags(remainingData);
                         } else {
                             swal("Error", response.data.message, "error");
                         }
@@ -88,13 +88,11 @@ const Tag = () => {
                                         <tr>
                                             <th>#</th>
                                             <th>Name</th>
-                                            <th>Photo</th>
-                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {categories.map((el, index) => {
+                                        {tags.map((el, index) => {
                                             let count = index;
                                             return (
                                                 <tr key={index}>
@@ -104,26 +102,10 @@ const Tag = () => {
                                                     <td className="text-center">
                                                         {el.name}
                                                     </td>
-                                                    <td className="text-center flex justify-center">
-                                                        {el.image ? (
-                                                            <img
-                                                                src={`${AppURL}/storage/category/${el.image}`}
-                                                                width={200}
-                                                                alt=""
-                                                            />
-                                                        ) : (
-                                                            "No Image Found"
-                                                        )}
-                                                    </td>
-                                                    <td className="text-center">
-                                                        {el.status == 1
-                                                            ? "Published"
-                                                            : "Unpublished"}
-                                                    </td>
                                                     <td className="text-center">
                                                         <div className="flex items-center justify-center gap-4">
                                                             <Link
-                                                                to={`${AdminURL}/category/edit/${el.id}`}
+                                                                to={`${AdminURL}/tag/edit/${el.id}`}
                                                                 type="button"
                                                                 className="btn btn-sm btn-outline-primary"
                                                             >
